@@ -33,3 +33,7 @@
 
 # VScode
 .vscode
+
+# PlatformIO
+.pio
+platformio.ini

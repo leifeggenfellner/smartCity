@@ -31,8 +31,8 @@
 *.out
 *.app
 
-# PlatformIO
-.pio
-
 # VScode
 .vscode
+
+# PlatformIO
+.pio

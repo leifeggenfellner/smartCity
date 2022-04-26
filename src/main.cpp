@@ -11,11 +11,8 @@ int maxSpeed = 400;
 int distance_driven;
 float battery_level;
 
-
 int car_state = 0;
 int display_mode = 0;
-
-
 
 Zumo32U4Encoders encoders;
 Zumo32U4Buzzer buzzer;
@@ -25,8 +22,6 @@ Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4LCD display;
-
-
 
 void setup()
 {
@@ -48,30 +43,28 @@ void loop()
         break;
 
     case DRIVING:
-        
-      distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight());        // Regner ut hvor langt bilen har kjørt
-      lineFollow();                                 // Motorreguleringen som kjører bilen
-      //chargingStation();        // Sjekker om bilen trenger lading
-      //displayFunc();            // Viser informasjon på displayet
 
-      Serial.println(distance_driven);
+        distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
+        lineFollow();                                                                          // Motorreguleringen som kjører bilen
+        // chargingStation();        // Sjekker om bilen trenger lading
+        // displayFunc();            // Viser informasjon på displayet
 
-      if (currentMillis - prevMillis >= 1000) {
-        prevMillis = currentMillis;
+        Serial.println(distance_driven);
 
-        vehicleSpeed = gjennomsnittsHastighet(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight());          // Sjekker hastigheten ved å telle antall rotasjoner på motoren
-        battery_level = batteryDrain(vehicleSpeed);      // Tapper batteriet
-      }
+        if (currentMillis - prevMillis >= 1000)
+        {
+            prevMillis = currentMillis;
+
+            vehicleSpeed = gjennomsnittsHastighet(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
+            battery_level = batteryDrain(vehicleSpeed);                                                                 // Tapper batteriet
+        }
 
         break;
 
     case CHARGING:
-        
 
         break;
-    
-    
-    
+
     default:
         break;
     }
@@ -85,15 +78,15 @@ void loop()
         motors.setSpeeds(randNumber, randNumber);
         prevMillis = currentMillis;
         vehicleSpeed = gjennomsnittsHastighet();
-        
+
 
         // Serial.println(battery_level);
     }
     */
-    //float maksHast = maksHastighet(vehicleSpeed);
+    // float maksHast = maksHastighet(vehicleSpeed);
 
-    //float highSpeed = highSpeedTime(vehicleSpeed, maksHast);
-    //Serial.println(highSpeed);
+    // float highSpeed = highSpeedTime(vehicleSpeed, maksHast);
+    // Serial.println(highSpeed);
 
     // battery.batteryDrain(vehicleSpeed);
     /*

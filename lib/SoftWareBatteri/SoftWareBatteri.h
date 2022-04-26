@@ -5,10 +5,9 @@
 #include <Zumo32U4.h>
 //#include "Speedometer.h"
 
-
 /*
 // Deklarerer variabler
-int account_balance = 0; 
+int account_balance = 0;
 int charging_cycles = 0;
 int battery_health = 100;
 int charging_cost = 10;
@@ -22,11 +21,11 @@ namespace Batteriet
 {
     class ZumoSWBattery
     {
-        public: 
-            int batteryDrain(int vehicle_speed); 
+        public:
+            int batteryDrain(int vehicle_speed);
     };
 
 }
 */
 
-float batteryDrain(float vehicle_speed); 
+float batteryDrain(float vehicle_speed);

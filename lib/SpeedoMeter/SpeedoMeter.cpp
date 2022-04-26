@@ -20,8 +20,6 @@ static int maximum_speed = 400;
 // static unsigned long backingUpCounts;
 // long distanceBackedUp;
 
-
-
 float gjennomsnittsHastighet(unsigned long countsLeft, unsigned long countsRight)
 {
   float meanRotation = (countsLeft + countsRight) / 2;
@@ -61,8 +59,6 @@ float highSpeedTime(float vehicle_speed, float maximum_velocity)
   return seconds_passed_in_high_speeds;
 }
 
-
-
 int chooseSpeed(bool button_B_pressed, bool button_C_pressed)
 {
   while (button_B_pressed)
@@ -86,8 +82,6 @@ int updateCarState(bool button_A_pressed)
   }
   return _car_state;
 }
-
-
 
 int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
 {

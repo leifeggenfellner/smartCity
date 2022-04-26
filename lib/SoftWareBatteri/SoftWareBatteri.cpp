@@ -3,7 +3,7 @@
 
 // using namespace Batteriet;
 
-//static Zumo32U4Encoders encoders;
+// static Zumo32U4Encoders encoders;
 
 // Deklarerer variabler
 float account_balance = 0;
@@ -15,7 +15,6 @@ float battery_capacity = 1200; // mAh
 bool needs_charging = false;
 bool battery_dead = false;
 
-
 float batteryDrain(float vehicle_speed)
 {
   float Kb = 0.15; // Batterikonstant for hvor mye batteriet skal tappes
@@ -24,7 +23,6 @@ float batteryDrain(float vehicle_speed)
   battery_capacity -= battery_consumption;
   battery_capacity = constrain(battery_capacity, 0, 1200);
   battery_level = (battery_capacity / 1200) * 100; // Gitt i 100%
-
 
   return battery_level;
 }

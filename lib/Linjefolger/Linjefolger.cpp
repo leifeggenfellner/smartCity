@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <Wire.h>
 #include <Zumo32U4.h>
 
@@ -13,16 +14,19 @@ int16_t lastError = 0;
 #define NUM_SENSORS 5
 unsigned int lineSensorValues[NUM_SENSORS];
 
-void sensorsCalibrate() {
+void sensorsCalibrate()
+{
   delay(1000);
-  for (uint16_t i = 0; i < 120; i++) {
+  for (uint16_t i = 0; i < 120; i++)
+  {
     motors.setSpeeds(200, -200);
     lineSensors.calibrate();
   }
   motors.setSpeeds(0, 0);
 }
 
-void startCalibration() {
+void startCalibration()
+{
   lineSensors.initFiveSensors();
 
   // buzzer.play(">g32>>c32");
@@ -45,7 +49,8 @@ void startCalibration() {
   display.clear();
 }
 
-void lineFollow(){
+void lineFollow()
+{
 
   int16_t position = lineSensors.readLine(lineSensorValues);
   int16_t error = position - 2000;
@@ -60,5 +65,4 @@ void lineFollow(){
   rightSpeed = constrain(rightSpeed, 0, (int16_t)maxSpeed);
 
   motors.setSpeeds(leftSpeed, rightSpeed);
-
 }

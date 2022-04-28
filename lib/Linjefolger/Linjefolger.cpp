@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-static const uint16_t maxSpeed = 400;
+//static const uint16_t maxSpeed = 400;
 
 static Zumo32U4LineSensors lineSensors;
 static Zumo32U4Motors motors;
@@ -27,12 +27,13 @@ void startCalibration() {
 
   // buzzer.play(">g32>>c32");
 
+/*
   display.clear();
   display.print(F("Press A"));
   display.gotoXY(0, 1);
   display.print(F("to calib"));
   buttonA.waitForButton();
-
+*/
   sensorsCalibrate();
 
   lineSensors.readCalibrated(lineSensorValues);
@@ -41,11 +42,11 @@ void startCalibration() {
   display.print(F("Press A"));
   display.gotoXY(0, 1);
   display.print(F("to start"));
-  buttonA.waitForButton();
+  //buttonA.waitForButton();
   display.clear();
 }
 
-void lineFollow(){
+void lineFollow(uint16_t maximum_speed){
 
   int16_t position = lineSensors.readLine(lineSensorValues);
   int16_t error = position - 2000;
@@ -53,12 +54,55 @@ void lineFollow(){
 
   lastError = error;
 
-  int16_t leftSpeed = (int16_t)maxSpeed + speedDifference;
-  int16_t rightSpeed = (int16_t)maxSpeed - speedDifference;
+  int16_t leftSpeed = (int16_t)maximum_speed + speedDifference;
+  int16_t rightSpeed = (int16_t)maximum_speed - speedDifference;
 
-  leftSpeed = constrain(leftSpeed, 0, (int16_t)maxSpeed);
-  rightSpeed = constrain(rightSpeed, 0, (int16_t)maxSpeed);
+  leftSpeed = constrain(leftSpeed, 0, (int16_t)maximum_speed);
+  rightSpeed = constrain(rightSpeed, 0, (int16_t)maximum_speed);
 
   motors.setSpeeds(leftSpeed, rightSpeed);
 
 }
+
+
+void recieveCommandsFromESP(char commands_from_ESP){
+  
+  switch (commands_from_ESP) {
+    case 'w':
+      for (int speed = 0; speed <= 100; speed++) {
+        motors.setSpeeds(speed, speed);
+      }
+      break;
+
+
+    case 'a':
+      for (int speed = 0; speed <= 100; speed++) {
+        motors.setSpeeds(0, speed);
+      }
+      break;
+
+
+    case 's':
+      for (int speed = 0; speed <= 100; speed++) {
+        motors.setSpeeds(-speed, -speed);
+      }
+      break;
+
+
+    case 'd':
+      for (int speed = 0; speed <= 100; speed++) {
+        motors.setSpeeds(speed, 0);
+      }
+      break;
+
+
+    case 'x':
+      motors.setSpeeds(0, 0);
+      break;
+
+  }
+
+}
+
+
+ 

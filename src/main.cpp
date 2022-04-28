@@ -26,6 +26,8 @@ Zumo32U4LCD display;
 void setup()
 {
     Serial.begin(9600);
+    Serial1.begin(9600);
+    
     startCalibration();
 }
 
@@ -37,19 +39,33 @@ void loop()
     switch (car_state)
     {
     case STARTUP:
-        maxSpeed = chooseSpeed(buttonB.getSingleDebouncedPress(), buttonC.getSingleDebouncedPress());
-        car_state = updateCarState(buttonA.isPressed());
-        displayMaxSpeed(maxSpeed);
+        while (Serial1.available())
+        {
+            char ESPcommands = (char)Serial1.read();
+            maxSpeed = chooseSpeed2(ESPcommands);
+        }
+        //maxSpeed = chooseSpeed(buttonB.getSingleDebouncedPress(), buttonC.getSingleDebouncedPress());
+        displayTopScreen(maxSpeed);
+        char ESPcommands = (char)Serial1.read();
+        car_state = updateCarState2(ESPcommands);
+        //car_state = updateCarState(buttonA.isPressed());
         break;
 
     case DRIVING:
 
         distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
-        lineFollow();                                                                          // Motorreguleringen som kjører bilen
-        // chargingStation();        // Sjekker om bilen trenger lading
-        // displayFunc();            // Viser informasjon på displayet
+                                                                                               // lineFollow(maxSpeed);                                                                          // Motorreguleringen som kjører bilen
+        //  chargingStation();        // Sjekker om bilen trenger lading
+        //  displayFunc();            // Viser informasjon på displayet
 
-        Serial.println(distance_driven);
+        while (Serial1.available())
+        {
+            char ESPcommands = (char)Serial1.read();
+            recieveCommandsFromESP(ESPcommands);
+        }
+
+        displayTopScreen(vehicleSpeed);
+        display.print(" cm/s");
 
         if (currentMillis - prevMillis >= 1000)
         {

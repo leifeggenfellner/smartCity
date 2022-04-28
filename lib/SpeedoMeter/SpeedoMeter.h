@@ -29,4 +29,6 @@ float highSpeedTime(float vehicle_speed, float maximum_velocity);
 int chooseSpeed(bool button_B_pressed, bool button_C_pressed);
 int distanceDriven(unsigned long countsLeft, unsigned long countsRight);
 int updateCarState(bool button_A_pressed);
+int updateCarState2(char commands_from_ESP);
+float chooseSpeed2(char commands_from_ESP);
 //void initialize();

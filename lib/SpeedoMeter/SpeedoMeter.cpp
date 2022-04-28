@@ -20,8 +20,6 @@ static int maximum_speed = 400;
 // static unsigned long backingUpCounts;
 // long distanceBackedUp;
 
-
-
 float gjennomsnittsHastighet(unsigned long countsLeft, unsigned long countsRight)
 {
   float meanRotation = (countsLeft + countsRight) / 2;
@@ -60,23 +58,53 @@ float highSpeedTime(float vehicle_speed, float maximum_velocity)
 
   return seconds_passed_in_high_speeds;
 }
-
-
-
+/*
 int chooseSpeed(bool button_B_pressed, bool button_C_pressed)
 {
-  while (button_B_pressed)
+  if (button_B_pressed)
   {
+    // while (button_B_pressed){}
     maximum_speed -= 50;
   }
 
-  while (button_C_pressed)
+  if (button_C_pressed)
   {
+    // while (button_C_pressed){}
     maximum_speed += 50;
+  }
+  Serial.println(maximum_speed);
+
+  return maximum_speed;
+}*/
+
+float chooseSpeed2(char commands_from_ESP)
+{
+  switch (commands_from_ESP)
+  {
+  case '+':
+    maximum_speed += 50;
+    commands_from_ESP = 3;
+
+    break;
+
+  case '-':
+    maximum_speed -= 50;
+    commands_from_ESP = 3;
+
+    break;
+  case 'l':
+    _car_state = 1;
+
+  break;
+
+  case 3:
+
+    break;
   }
   return maximum_speed;
 }
 
+/*
 int updateCarState(bool button_A_pressed)
 {
   if (button_A_pressed)
@@ -86,7 +114,14 @@ int updateCarState(bool button_A_pressed)
   }
   return _car_state;
 }
+*/
 
+int updateCarState2(char commands_from_ESP){
+  if(commands_from_ESP == 'l'){
+    _car_state = 1;
+  }
+  return _car_state;
+}
 
 
 int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
@@ -124,6 +159,7 @@ int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
   }
 */
   return _distance_driven;
+  
 }
 
 /*

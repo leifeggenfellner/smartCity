@@ -1,9 +1,8 @@
 #pragma once
 
 #include <Arduino.h>
-#include <Wire.h>
-#include <Zumo32U4.h>
 //#include "Speedometer.h"
+
 
 
 /*
@@ -30,3 +29,6 @@ namespace Batteriet
 */
 
 float batteryDrain(float vehicle_speed); 
+float reverseCharge(); 
+int checkBatteryState(float battery_level); 
+int batteryHealthCheck(float battery_level, float vehicle_speed, float maximum_speed);

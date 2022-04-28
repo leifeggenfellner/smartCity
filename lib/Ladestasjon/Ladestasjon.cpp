@@ -62,20 +62,6 @@ void callback(char* topic, byte* message, unsigned int length) {
 
   // If a message is received on the topic Test_Topic, you check if the message is either "blink" or "stop".
   // Changes the output state according to the message
-/*  if (String(topic) == "Test_Topic") {
-    Serial.print("Changing output to ");
-    if (messageTemp == "on") {
-      Serial.println("Led turned on");
-      client.publish("Test_Topic", "LED is on at ESP32");
-      //ledcWrite(channelLED, 255);
-    }
-    else if (messageTemp == "off") {
-      Serial.println("LED turned off");
-      client.publish("Test_Topic", "LED is off at ESP32");
-      //ledcWrite(channelLED, 0);
-    }
-  }*/
-
   if (String(topic) == "Test_Topic") {
     lading_zumo(chargeMode(messageTemp));
   }
@@ -109,15 +95,6 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
-  /*if (Serial.available() > 0) {
-    // read the incoming byte:
-    String chosenMode = Serial.readStringUntil('\n');
-
-    // say what you got:
-    Serial.print("I received: ");
-    Serial.println(chosenMode);
-    Serial.println(lading_zumo(chargeMode(chosenMode)));
-  }*/
   client.loop();
 }
 

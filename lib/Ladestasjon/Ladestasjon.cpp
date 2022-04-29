@@ -99,6 +99,12 @@ void loop() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+#include "Ladestasjon.h"
+
+static int battery_level = 100;
+static int account_balance;
 
 int chargeMode(String serialCommand) {
   int chosenMode;
@@ -131,14 +137,11 @@ int chargeMode(String serialCommand) {
 int lading_zumo(int chargeMode) {
   switch (chargeMode) {
     case 0: //error
-      Serial.println("Check your spelling, m8");
+
       break;
 
     case 1: //fullCharge
-      SW_battery = fullCharge(SW_battery);
-      Serial.print("Battery at ");
-      Serial.print(SW_battery);
-      Serial.println("%");
+      battery_level = fullCharge(battery_level);
       break;
 
     case 2: //chargeUpTo
@@ -146,113 +149,64 @@ int lading_zumo(int chargeMode) {
         while (Serial.available() == 0) {}
         // read the incoming byte:
         String percentage = Serial.readStringUntil('\n');
-
-        // say what you got:
-        Serial.print("I received: ");
-        Serial.println(percentage);
-
-        SW_battery = chargeUpTo(SW_battery, percentage.toInt());
-        Serial.print("Battery at ");
-        Serial.print(SW_battery);
-        Serial.println("%");
+        battery_level = chargeUpTo(battery_level, percentage.toInt());
       }
       break;
 
     case 3: //chargeUntilStop
-      SW_battery = chargeUntilStop(SW_battery, account_balance);
-      Serial.print("Battery at ");
-      Serial.print(SW_battery);
-      Serial.println("%");
+      battery_level = chargeUntilStop(battery_level, account_balance);
       break;
 
-    case 4: //ChargeOnCredit
-      Serial.println("Charging on credit");
+    case 4: //batteryService
+      //Serial.println("Service have been done on the battery");
       break;
 
-    case 5: //batteryService
-      Serial.println("Service have been done on the battery");
-      break;
-
-    case 6: //batteryReplace
-      Serial.println("Battery has been replaced");
+    case 5: //batteryReplace
+      //Serial.println("Battery has been replaced");
       break;
   }
-  return SW_battery;
+  return battery_level;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int fullCharge(int battery) {
+int fullCharge(int battery_level) {
   unsigned long currentMillis = millis();
-  while (battery < 100) {
+  while (battery_level < 100) {
     if (millis() - currentMillis == 200) {
-      battery++;
-      Serial.println(battery);
+      battery_level++;
       currentMillis = millis();
     }
   }
-  return battery;
+  return battery_level;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int chargeUpTo(int battery, int chargeCap) {
+int chargeUpTo(int battery_level, int chargeCap) {
   unsigned long currentMillis = millis();
-  while (battery < chargeCap) {
+  while (battery_level < chargeCap) {
     if (millis() - currentMillis == 200) {
-      battery++;
-      Serial.println(battery);
+      battery_level++;
       currentMillis = millis();
     }
   }
-  return battery;
+  return battery_level;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int chargeUntilStop(int battery, int money) {
+int chargeUntilStop(int battery_level, int money) {
   unsigned long currentMillis = millis();
-  while (battery < 100 && money > 0) {
+  while (battery_level < 100 && money > 0) {
     if (millis() - currentMillis == 200) {
-      battery++;
+      battery_level++;
       money--;
       currentMillis = millis();
-      Serial.print(battery);
-      Serial.print("        ");
-      Serial.println(money);
     }
   }
   account_balance = money; //sendes til nettsky
-  return battery;
+  return battery_level;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-int ChargeOnCredit(int battery) {
-  int creditCharge = 0;
-  switch (creditCharge) {
-    case 1:
-      credit_account += 100; //sendes til nettsky
-      SW_battery = fullCharge(SW_battery);
-      break;
-
-    case 2:
-      if (Serial.available() == 0) {
-        while (Serial.available() == 0) {}
-        // read the incoming byte:
-        String percentage = Serial.readStringUntil('\n');
-
-        // say what you got:
-        Serial.print("I received: ");
-        Serial.println(percentage);
-
-        SW_battery = chargeUpTo(SW_battery, percentage.toInt());
-        Serial.print("Battery at ");
-        Serial.print(SW_battery);
-        Serial.println("%");
-      }
-      break;
-  }
-  return SW_battery;
-}
-*/

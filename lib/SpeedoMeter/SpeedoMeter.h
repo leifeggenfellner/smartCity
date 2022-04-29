@@ -1,13 +1,10 @@
 
 #pragma once
 #include <Arduino.h>
-#include <Zumo32U4.h>
 
-
-namespace ZumoSpeedometer
-
+/*
 {
-    class speedometer
+    class ZumoVirtualSpeedometer
     {
     public:
         float currentSpeed(unsigned long countsLeft, unsigned long countsRight);
@@ -24,4 +21,9 @@ namespace ZumoSpeedometer
     };
 
 }
+*/
 
+float currentSpeed(unsigned long countsLeft, unsigned long countsRight);
+float maxSpeed(float vehicle_speed);
+float highSpeedTime(float vehicle_speed, float maximum_velocity);
+int distanceDriven(unsigned long countsLeft, unsigned long countsRight);

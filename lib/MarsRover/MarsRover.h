@@ -5,6 +5,7 @@
 #include "SpeedoMeter.h"
 #include "PropulsionSystem.h"
 #include "Display.h"
+#include "GroundControl.h"
 
 #define STARTUP 0
 #define DRIVING 1

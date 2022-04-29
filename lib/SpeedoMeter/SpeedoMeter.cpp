@@ -1,16 +1,16 @@
 
 #include "Speedometer.h"
-#include <Zumo32U4.h>
 
-using namespace ZumoSpeedometer;
+//using namespace speedometer;
+
 
 static float maximum_velocity;
-unsigned long seconds_passed_in_high_speeds = 1;
+static unsigned long seconds_passed_in_high_speeds = 1;
 static unsigned long currentMillis = millis();
 static unsigned long prevMillis2 = 0;
+static unsigned long prevMillis3 = 0;
 unsigned long totalCounts;
 int _distance_driven;
-int _car_state;
 static int maximum_speed = 400;
 // static unsigned long backingUpCounts;
 // long distanceBackedUp;
@@ -34,7 +34,6 @@ float maxSpeed(float vehicle_speed)
 
 float highSpeedTime(float vehicle_speed, float maximum_velocity)
 {
-  Serial.println(currentMillis);
 
   // static int millis_passed_in_high_speeds;
   // float seconds_passed_in_high_speeds = millis_passed_in_high_speeds / 100;
@@ -45,7 +44,6 @@ float highSpeedTime(float vehicle_speed, float maximum_velocity)
     if (currentMillis - prevMillis2 >= 1000)
     {
       prevMillis2 = currentMillis;
-      Serial.println("Hei");
       seconds_passed_in_high_speeds += 1;
     }
   }
@@ -54,13 +52,6 @@ float highSpeedTime(float vehicle_speed, float maximum_velocity)
   return seconds_passed_in_high_speeds;
 }
 
-
-int updateCarState(char commands_from_ESP){
-  if(commands_from_ESP == 'l'){
-    _car_state = 1;
-  }
-  return _car_state;
-}
 
 
 int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
@@ -101,3 +92,12 @@ int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
   
 }
 
+/*
+int gjennomsnittsHastighet(float vehicle_speed){
+
+  if (currentMillis - prevMillis3 >= 60 * 1000){
+    int new_speed = vehicle_speed;
+  }
+}
+
+*/

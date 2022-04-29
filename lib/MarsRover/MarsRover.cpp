@@ -49,7 +49,7 @@ void loop()
         break;
 
     case DRIVING:
-        
+
       distance_driven = distanceDriven(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight());        // Regner ut hvor langt bilen har kjørt
       lineFollow();                                 // Motorreguleringen som kjører bilen
       //chargingStation();        // Sjekker om bilen trenger lading
@@ -67,12 +67,12 @@ void loop()
         break;
 
     case CHARGING:
-        
+
 
         break;
-    
-    
-    
+
+
+
     default:
         break;
     }
@@ -86,22 +86,22 @@ void loop()
         motors.setSpeeds(randNumber, randNumber);
         prevMillis = currentMillis;
         vehicleSpeed = gjennomsnittsHastighet();
-        
+
 
         // Serial.println(battery_level);
     }
     */
-    //float maksHast = maksHastighet(vehicleSpeed);
+// float maksHast = maksHastighet(vehicleSpeed);
 
-    //float highSpeed = highSpeedTime(vehicleSpeed, maksHast);
-    //Serial.println(highSpeed);
+// float highSpeed = highSpeedTime(vehicleSpeed, maksHast);
+// Serial.println(highSpeed);
 
-    // battery.batteryDrain(vehicleSpeed);
-    /*
-    motors.setSpeeds(100, 100);
+// battery.batteryDrain(vehicleSpeed);
+/*
+motors.setSpeeds(100, 100);
 
-    int vehicleSpeed = gjennomsnittsHastighet();
-    Serial.println(vehicleSpeed);
+int vehicleSpeed = gjennomsnittsHastighet();
+Serial.println(vehicleSpeed);
 
 }
 

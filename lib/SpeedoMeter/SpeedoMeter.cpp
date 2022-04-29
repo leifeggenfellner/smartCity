@@ -2,12 +2,7 @@
 #include "Speedometer.h"
 #include <Zumo32U4.h>
 
-// using namespace Speedometeret;
-
-/*
-int teitVariabel = 0;
-float millis_passed_in_high_speeds = 0;
-*/
+using namespace ZumoSpeedometer;
 
 static float maximum_velocity;
 unsigned long seconds_passed_in_high_speeds = 1;
@@ -20,7 +15,7 @@ static int maximum_speed = 400;
 // static unsigned long backingUpCounts;
 // long distanceBackedUp;
 
-float gjennomsnittsHastighet(unsigned long countsLeft, unsigned long countsRight)
+float currentSpeed(unsigned long countsLeft, unsigned long countsRight)
 {
   float meanRotation = (countsLeft + countsRight) / 2;
   float vehicleSpeed = (meanRotation * 100) / 5000;
@@ -28,7 +23,7 @@ float gjennomsnittsHastighet(unsigned long countsLeft, unsigned long countsRight
   return vehicleSpeed;
 }
 
-float maksHastighet(float vehicle_speed)
+float maxSpeed(float vehicle_speed)
 {
   if (vehicle_speed >= maximum_velocity)
   {
@@ -58,38 +53,9 @@ float highSpeedTime(float vehicle_speed, float maximum_velocity)
 
   return seconds_passed_in_high_speeds;
 }
-/*
-int chooseSpeed(bool button_B_pressed, bool button_C_pressed)
-{
-  if (button_B_pressed)
-  {
-    // while (button_B_pressed){}
-    maximum_speed -= 50;
-  }
 
-  if (button_C_pressed)
-  {
-    // while (button_C_pressed){}
-    maximum_speed += 50;
-  }
-  Serial.println(maximum_speed);
 
-  return maximum_speed;
-}*/
-
-/*
-int updateCarState(bool button_A_pressed)
-{
-  if (button_A_pressed)
-  {
-    delay(1000);
-    _car_state = 1; // DRIVING
-  }
-  return _car_state;
-}
-*/
-
-int updateCarState2(char commands_from_ESP){
+int updateCarState(char commands_from_ESP){
   if(commands_from_ESP == 'l'){
     _car_state = 1;
   }
@@ -135,64 +101,3 @@ int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
   
 }
 
-/*
-void initialize() {
-
-  display.clear();
-  display.gotoXY(0, 0);
-  display.print(F("KALIBRER"));
-  display.gotoXY(0, 1);
-  display.print(F("TRYKK A"));
-
-  buttonA.waitForButton();
-
-  delay(1000);
-
-  display.clear();
-  display.gotoXY(0, 0);
-  display.print(F("Kalibrerer"));
-  display.gotoXY(0, 1);
-  display.print(F("..."));
-
-  calibrate();
-  display.clear();
-  display.gotoXY(0, 0);
-  display.print(F("TRYKK A"));
-}
-*/
-
-/*
-void mainFunc() {
-  float vehicleSpeed;
-  float maxVelocity;
-  float highSpeedTime;
-
-
-  // resetter variabler i starten av programmet
-  if (currentMillis < 100) {
-    maxVelocity = 50;
-    vehicleSpeed = 0;
-    highSpeedTime = 0;
-  }
-
-
-  if (currentMillis - prevMillis >= 1000) {
-    prevMillis = currentMillis;
-
-    // returnerer gjennomsnittshastighet (vehicleSpeed)
-    vehicleSpeed = gjennomsnittsHastighet();
-
-    motorPaadrag = random(300);
-
-  }
-
-  maxVelocity = maksHastighet(vehicleSpeed);
-
-
-  // Tar inn (momentanfarten til bilen, maksfarten som er målt under kjøring)
-  //highSpeedTime = sekunderOver70(vehicleSpeed, maxVelocity);
-  //Serial.println(highSpeedTime);
-
-
-}
-*/

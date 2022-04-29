@@ -57,25 +57,25 @@ int checkBatteryState(int battery_level)
   return needs_charging;
 }
 
-/*
-int batteryHealthCheck(float battery_level, float vehicle_speed, float maximum_speed){
+
+int batteryHealthCheck(int battery_level, float vehicle_speed, float maximum_speed){
 
     switch (battery_health)
     {
     case level_0:
       /* code */
-     // break;
-   // case level_1:
+     break;
+    case level_1:
       /* code */
-      //break;
+      break;
     
-   // case level_2:
+   case level_2:
       /* code */
-     // break;
+      break;
     
-    //default:
-     // break;
-  //  }
+    default:
+     break;
+    }
 
-//}   
+}   
 

@@ -4,7 +4,7 @@
 //#include "Speedometer.h"
 
 
-
+namespace SoftWareBattery
 /*
 // Deklarerer variabler
 int account_balance = 0;

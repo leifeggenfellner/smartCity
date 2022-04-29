@@ -1,5 +1,4 @@
 #include "Display.h"
-#include <Zumo32U4LCD.h>
 
 Display::Display(int maximum_speed, int display_mode, Zumo32U4LCD display)
 {

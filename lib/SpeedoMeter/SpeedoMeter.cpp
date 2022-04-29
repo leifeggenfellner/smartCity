@@ -95,8 +95,14 @@ int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
 /*
 int gjennomsnittsHastighet(float vehicle_speed){
 
-  if (currentMillis - prevMillis3 >= 60 * 1000){
+  if (currentMillis - prevMillis3 >= 1000){
     int new_speed = vehicle_speed;
+    int samplingCount += 1;
+    int totSpeed += vehicle_speed;
+    if(samplingCount == 60){
+      snitt_fart = totSpeed / 60;
+      samplingCount = 0;
+    }
   }
 }
 

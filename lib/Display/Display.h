@@ -1,4 +1,5 @@
 #pragma once
+#include <Zumo32U4LCD.h>
 
 class Display
 {

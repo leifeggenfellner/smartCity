@@ -3,7 +3,7 @@
 #include "Ladestasjon.h"
 #include "SoftWareBatteri.h"
 #include "SpeedoMeter.h"
-#include "Linjefolger.h"
+#include "PropulsionSystem.h"
 #include "Display.h"
 
 #define STARTUP 0

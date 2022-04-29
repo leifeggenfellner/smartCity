@@ -77,33 +77,6 @@ int chooseSpeed(bool button_B_pressed, bool button_C_pressed)
   return maximum_speed;
 }*/
 
-float chooseSpeed2(char commands_from_ESP)
-{
-  switch (commands_from_ESP)
-  {
-  case '+':
-    maximum_speed += 50;
-    commands_from_ESP = 3;
-
-    break;
-
-  case '-':
-    maximum_speed -= 50;
-    commands_from_ESP = 3;
-
-    break;
-  case 'l':
-    _car_state = 1;
-
-  break;
-
-  case 3:
-
-    break;
-  }
-  return maximum_speed;
-}
-
 /*
 int updateCarState(bool button_A_pressed)
 {

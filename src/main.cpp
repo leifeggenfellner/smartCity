@@ -27,45 +27,46 @@ void setup()
 {
     Serial.begin(9600);
     Serial1.begin(9600);
-    
-    startCalibration();
 }
 
 void loop()
 {
+
+    char ESPcommands = (char)Serial1.read();
 
     currentMillis = millis();
 
     switch (car_state)
     {
     case STARTUP:
-        while (Serial1.available())
-        {
-            char ESPcommands = (char)Serial1.read();
-            maxSpeed = chooseSpeed2(ESPcommands);
-        }
-        //maxSpeed = chooseSpeed(buttonB.getSingleDebouncedPress(), buttonC.getSingleDebouncedPress());
-        displayTopScreen(maxSpeed);
-        char ESPcommands = (char)Serial1.read();
+
+        maxSpeed = chooseSpeed2(ESPcommands);
         car_state = updateCarState2(ESPcommands);
-        //car_state = updateCarState(buttonA.isPressed());
+
+        Serial.print("Car state  ");
+        Serial.print(car_state);
+        Serial.print("     Recieved from ESP  ");
+        Serial.print(ESPcommands);
+        Serial.print("     Max speed  ");
+        Serial.println(maxSpeed);
+
+        // maxSpeed = chooseSpeed(buttonB.getSingleDebouncedPress(), buttonC.getSingleDebouncedPress());
+        // displayTopScreen(maxSpeed);
+        // car_state = updateCarState(buttonA.isPressed());
         break;
 
     case DRIVING:
 
         distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
                                                                                                // lineFollow(maxSpeed);                                                                          // Motorreguleringen som kjører bilen
-        //  chargingStation();        // Sjekker om bilen trenger lading
-        //  displayFunc();            // Viser informasjon på displayet
+                                                                                               //  chargingStation();        // Sjekker om bilen trenger lading
+                                                                                               //  displayFunc();            // Viser informasjon på displayet
 
-        while (Serial1.available())
-        {
-            char ESPcommands = (char)Serial1.read();
-            recieveCommandsFromESP(ESPcommands);
-        }
+        recieveCommandsFromESP(ESPcommands);
+        maxSpeed = chooseSpeed2(ESPcommands);
 
-        displayTopScreen(vehicleSpeed);
-        display.print(" cm/s");
+        //displayTopScreen(vehicleSpeed);
+        //display.print(" cm/s");
 
         if (currentMillis - prevMillis >= 1000)
         {
@@ -85,30 +86,4 @@ void loop()
         break;
     }
 
-    /*
-    if (currentMillis - prevMillis >= 1000)
-    {
-
-        int randNumber = random(400);
-
-        motors.setSpeeds(randNumber, randNumber);
-        prevMillis = currentMillis;
-        vehicleSpeed = gjennomsnittsHastighet();
-
-
-        // Serial.println(battery_level);
-    }
-    */
-    // float maksHast = maksHastighet(vehicleSpeed);
-
-    // float highSpeed = highSpeedTime(vehicleSpeed, maksHast);
-    // Serial.println(highSpeed);
-
-    // battery.batteryDrain(vehicleSpeed);
-    /*
-    motors.setSpeeds(100, 100);
-
-    int vehicleSpeed = gjennomsnittsHastighet();
-    Serial.println(vehicleSpeed);
-*/
 }

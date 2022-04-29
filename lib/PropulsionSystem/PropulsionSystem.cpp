@@ -9,6 +9,7 @@ static Zumo32U4ButtonA buttonA;
 static Zumo32U4LCD display;
 
 int16_t lastError = 0;
+static int _maximum_speed = 400;
 
 #define NUM_SENSORS 5
 unsigned int lineSensorValues[NUM_SENSORS];
@@ -46,7 +47,35 @@ void startCalibration() {
   display.clear();
 }
 
-void lineFollow(uint16_t maximum_speed){
+
+float chooseSpeed2(char commands_from_ESP)
+{
+  switch (commands_from_ESP)
+  {
+    case 'c':
+    sensorsCalibrate();
+    break;
+  case '+':
+    _maximum_speed += 50;
+    commands_from_ESP = 3;
+
+    break;
+
+  case '-':
+    _maximum_speed -= 50;
+    commands_from_ESP = 3;
+
+    break;
+
+  case 3:
+
+    break;
+  }
+  return _maximum_speed;
+}
+
+
+void lineFollow(uint16_t _maximum_speed){
 
   int16_t position = lineSensors.readLine(lineSensorValues);
   int16_t error = position - 2000;
@@ -54,11 +83,11 @@ void lineFollow(uint16_t maximum_speed){
 
   lastError = error;
 
-  int16_t leftSpeed = (int16_t)maximum_speed + speedDifference;
-  int16_t rightSpeed = (int16_t)maximum_speed - speedDifference;
+  int16_t leftSpeed = (int16_t)_maximum_speed + speedDifference;
+  int16_t rightSpeed = (int16_t)_maximum_speed - speedDifference;
 
-  leftSpeed = constrain(leftSpeed, 0, (int16_t)maximum_speed);
-  rightSpeed = constrain(rightSpeed, 0, (int16_t)maximum_speed);
+  leftSpeed = constrain(leftSpeed, 0, (int16_t)_maximum_speed);
+  rightSpeed = constrain(rightSpeed, 0, (int16_t)_maximum_speed);
 
   motors.setSpeeds(leftSpeed, rightSpeed);
 
@@ -68,29 +97,33 @@ void lineFollow(uint16_t maximum_speed){
 void recieveCommandsFromESP(char commands_from_ESP){
   
   switch (commands_from_ESP) {
+    case 'f':
+      lineFollow(_maximum_speed);
+    break;
+
     case 'w':
-      for (int speed = 0; speed <= 100; speed++) {
+      for (int speed = 0; speed <= _maximum_speed; speed++) {
         motors.setSpeeds(speed, speed);
       }
       break;
 
 
     case 'a':
-      for (int speed = 0; speed <= 100; speed++) {
+      for (int speed = 0; speed <= _maximum_speed; speed++) {
         motors.setSpeeds(0, speed);
       }
       break;
 
 
     case 's':
-      for (int speed = 0; speed <= 100; speed++) {
+      for (int speed = 0; speed <= _maximum_speed; speed++) {
         motors.setSpeeds(-speed, -speed);
       }
       break;
 
 
     case 'd':
-      for (int speed = 0; speed <= 100; speed++) {
+      for (int speed = 0; speed <= _maximum_speed; speed++) {
         motors.setSpeeds(speed, 0);
       }
       break;

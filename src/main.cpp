@@ -58,9 +58,10 @@ void loop()
     case DRIVING:
 
         distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
+
         ESPdriveCommands(ESPcommands);    // Tar imot kjørekommandoer fra ESP
         max_speed = chooseMaxSpeed(ESPcommands);   // Velger makshastighet via ESP
-        
+       
 
         if (currentMillis - prevMillis >= 1000)
         {
@@ -79,5 +80,4 @@ void loop()
     default:
         break;
     }
-
 }

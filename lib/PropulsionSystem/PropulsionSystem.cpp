@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-//static const uint16_t maxSpeed = 400;
+// static const uint16_t maxSpeed = 400;
 
 static Zumo32U4LineSensors lineSensors;
 static Zumo32U4Motors motors;
@@ -14,27 +14,30 @@ static int _maximum_speed = 400;
 #define NUM_SENSORS 5
 unsigned int lineSensorValues[NUM_SENSORS];
 
-void sensorsCalibrate() {
+void sensorsCalibrate()
+{
   delay(1000);
-  for (uint16_t i = 0; i < 120; i++) {
+  for (uint16_t i = 0; i < 120; i++)
+  {
     motors.setSpeeds(200, -200);
     lineSensors.calibrate();
   }
   motors.setSpeeds(0, 0);
 }
 
-void startCalibration() {
+void startCalibration()
+{
   lineSensors.initFiveSensors();
 
   // buzzer.play(">g32>>c32");
 
-/*
-  display.clear();
-  display.print(F("Press A"));
-  display.gotoXY(0, 1);
-  display.print(F("to calib"));
-  buttonA.waitForButton();
-*/
+  /*
+    display.clear();
+    display.print(F("Press A"));
+    display.gotoXY(0, 1);
+    display.print(F("to calib"));
+    buttonA.waitForButton();
+  */
   sensorsCalibrate();
 
   lineSensors.readCalibrated(lineSensorValues);
@@ -43,16 +46,15 @@ void startCalibration() {
   display.print(F("Press A"));
   display.gotoXY(0, 1);
   display.print(F("to start"));
-  //buttonA.waitForButton();
+  // buttonA.waitForButton();
   display.clear();
 }
-
 
 float chooseSpeed2(char commands_from_ESP)
 {
   switch (commands_from_ESP)
   {
-    case 'c':
+  case 'c':
     sensorsCalibrate();
     break;
   case '+':
@@ -74,8 +76,8 @@ float chooseSpeed2(char commands_from_ESP)
   return _maximum_speed;
 }
 
-
-void lineFollow(uint16_t _maximum_speed){
+void lineFollow(uint16_t _maximum_speed)
+{
 
   int16_t position = lineSensors.readLine(lineSensorValues);
   int16_t error = position - 2000;
@@ -90,52 +92,47 @@ void lineFollow(uint16_t _maximum_speed){
   rightSpeed = constrain(rightSpeed, 0, (int16_t)_maximum_speed);
 
   motors.setSpeeds(leftSpeed, rightSpeed);
-
 }
 
+void recieveCommandsFromESP(char commands_from_ESP)
+{
 
-void recieveCommandsFromESP(char commands_from_ESP){
-  
-  switch (commands_from_ESP) {
-    case 'f':
-      lineFollow(_maximum_speed);
+  switch (commands_from_ESP)
+  {
+  case 'f':
+    lineFollow(_maximum_speed);
     break;
 
-    case 'w':
-      for (int speed = 0; speed <= _maximum_speed; speed++) {
-        motors.setSpeeds(speed, speed);
-      }
-      break;
+  case 'w':
+    for (int speed = 0; speed <= _maximum_speed; speed++)
+    {
+      motors.setSpeeds(speed, speed);
+    }
+    break;
 
+  case 'a':
+    for (int speed = 0; speed <= _maximum_speed; speed++)
+    {
+      motors.setSpeeds(0, speed);
+    }
+    break;
 
-    case 'a':
-      for (int speed = 0; speed <= _maximum_speed; speed++) {
-        motors.setSpeeds(0, speed);
-      }
-      break;
+  case 's':
+    for (int speed = 0; speed <= _maximum_speed; speed++)
+    {
+      motors.setSpeeds(-speed, -speed);
+    }
+    break;
 
+  case 'd':
+    for (int speed = 0; speed <= _maximum_speed; speed++)
+    {
+      motors.setSpeeds(speed, 0);
+    }
+    break;
 
-    case 's':
-      for (int speed = 0; speed <= _maximum_speed; speed++) {
-        motors.setSpeeds(-speed, -speed);
-      }
-      break;
-
-
-    case 'd':
-      for (int speed = 0; speed <= _maximum_speed; speed++) {
-        motors.setSpeeds(speed, 0);
-      }
-      break;
-
-
-    case 'x':
-      motors.setSpeeds(0, 0);
-      break;
-
+  case 'x':
+    motors.setSpeeds(0, 0);
+    break;
   }
-
 }
-
-
- 

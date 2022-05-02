@@ -1,12 +1,10 @@
 #include "MarsRover.h"
 
-// Batteriet::ZumoSWBattery battery;
-
 unsigned long currentMillis;
 unsigned long prevMillis = 0;
 unsigned long prevMillis2 = 0;
 float vehicleSpeed;
-int maxSpeed = 400;
+int max_speed = 400;
 
 int distance_driven;
 float battery_level;
@@ -22,8 +20,6 @@ Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4LCD display;
-Movement myZumo(200, linesensor, motors, buzzer);
-Display myDisplay(200, 1, display);
 
 void setup()
 {
@@ -34,31 +30,40 @@ void setup()
 void loop()
 {
 
+    char ESPcommands = (char)Serial1.read();
+    String ESPstringCommands = (String)Serial1.read();
     currentMillis = millis();
 
     switch (car_state)
     {
     case STARTUP:
-        maxSpeed = chooseSpeed(buttonB.getSingleDebouncedPress(), buttonC.getSingleDebouncedPress());
-        car_state = updateCarState(buttonA.isPressed());
-        // displayMaxSpeed(maxSpeed);
+        max_speed = chooseMaxSpeed(ESPcommands);
+        car_state = updateCarState(ESPcommands);
+
+        /* //Dette er bare brukt for debugging
+        Serial.print("Car state  ");
+        Serial.print(car_state);
+        Serial.print("     Recieved from ESP  ");
+        Serial.print(ESPcommands);
+        Serial.print("     Max speed  ");
+        Serial.println(max_speed);
+        */
+
         break;
 
     case DRIVING:
 
         distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
-        myZumo.followLine();                                                                   // Motorreguleringen som kjører bilen
-        // chargingStation();        // Sjekker om bilen trenger lading
-        // displayFunc();            // Viser informasjon på displayet
 
-        Serial.println(distance_driven);
+        ESPdriveCommands(ESPcommands);           // Tar imot kjørekommandoer fra ESP
+        max_speed = chooseMaxSpeed(ESPcommands); // Velger makshastighet via ESP
 
         if (currentMillis - prevMillis >= 1000)
         {
             prevMillis = currentMillis;
 
-            vehicleSpeed = gjennomsnittsHastighet(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
-            battery_level = batteryDrain(vehicleSpeed);                                                                 // Tapper batteriet
+            vehicleSpeed = currentSpeed(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
+            battery_level = batteryDrain(vehicleSpeed);                                                       // Tapper batteriet
         }
 
         break;
@@ -70,31 +75,4 @@ void loop()
     default:
         break;
     }
-
-    /*
-    if (currentMillis - prevMillis >= 1000)
-    {
-
-        int randNumber = random(400);
-
-        motors.setSpeeds(randNumber, randNumber);
-        prevMillis = currentMillis;
-        vehicleSpeed = gjennomsnittsHastighet();
-
-
-        // Serial.println(battery_level);
-    }
-    */
-    // float maksHast = maksHastighet(vehicleSpeed);
-
-    // float highSpeed = highSpeedTime(vehicleSpeed, maksHast);
-    // Serial.println(highSpeed);
-
-    // battery.batteryDrain(vehicleSpeed);
-    /*
-    motors.setSpeeds(100, 100);
-
-    int vehicleSpeed = gjennomsnittsHastighet();
-    Serial.println(vehicleSpeed);
-*/
 }

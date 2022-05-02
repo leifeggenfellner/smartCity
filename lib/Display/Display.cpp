@@ -7,13 +7,37 @@ Display::Display(int maximum_speed, int display_mode, Zumo32U4LCD display)
     this->display = display;
 }
 
+
+
+void displayRotation(uint8_t display_mode){
+    switch (display_mode)
+    {
+    case 0:
+        /* code */
+        break;
+    
+    default:
+        break;
+    }
+
+}
+
+/*
+void displayCurrentSpeed(int vehicle_speed){
+    display.clear();
+    display.gotoXY(0,0);
+    display.print(vehicle_speed);
+
+}
+
+void displayMaxSpeed(int maximum_speed){
 void Display::displayMaxSpeed()
 {
     display.clear();
     display.gotoXY(0, 0);
     display.print(maximum_speed);
 }
-
+*/
 /*
 void sendToDisplay(int display_mode){
   switch (display_mode)

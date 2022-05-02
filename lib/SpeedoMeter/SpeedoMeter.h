@@ -4,26 +4,6 @@
 #include <Zumo32U4.h>
 #include <stdint.h>
 
-/*
-unsigned long currentMillis;
-unsigned long prevMillis = 0;
-unsigned long prevMillis2 = 0;
-*/
-/*
-namespace Speedometeret
-
-{
-    class ZumoSpeedometer
-    {
-    public:
-        int gjennomsnittsHastighet();
-        int maksHastighet(float vehicle_speed);
-        void sekunderOver70(float vehicle_speed, float maximum_velocity);
-    };
-
-}
-*/
-
 class Speedometer
 {
 private:

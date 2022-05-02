@@ -1,13 +1,6 @@
-
 #include "Speedometer.h"
-#include <Zumo32U4.h>
 
-// using namespace Speedometeret;
-
-/*
-int teitVariabel = 0;
-float millis_passed_in_high_speeds = 0;
-*/
+// using namespace speedometer;
 
 Speedometer::Speedometer()
 {
@@ -41,7 +34,6 @@ float Speedometer::maksHastighet(float vehicle_speed)
 
 float Speedometer::highSpeedTime(float vehicle_speed)
 {
-  Serial.println(currentMillis);
 
   // static int millis_passed_in_high_speeds;
   // float seconds_passed_in_high_speeds = millis_passed_in_high_speeds / 100;
@@ -52,7 +44,6 @@ float Speedometer::highSpeedTime(float vehicle_speed)
     if (currentMillis - prevMillis2 >= 1000)
     {
       prevMillis2 = currentMillis;
-      Serial.println("Hei");
       seconds_passed_in_high_speeds += 1;
     }
   }
@@ -112,63 +103,17 @@ void Speedometer::distanceDriven(uint32_t countsLeft, uint32_t countsRight)
 }
 
 /*
-void initialize() {
+int gjennomsnittsHastighet(float vehicle_speed){
 
-  display.clear();
-  display.gotoXY(0, 0);
-  display.print(F("KALIBRER"));
-  display.gotoXY(0, 1);
-  display.print(F("TRYKK A"));
-
-  buttonA.waitForButton();
-
-  delay(1000);
-
-  display.clear();
-  display.gotoXY(0, 0);
-  display.print(F("Kalibrerer"));
-  display.gotoXY(0, 1);
-  display.print(F("..."));
-
-  calibrate();
-  display.clear();
-  display.gotoXY(0, 0);
-  display.print(F("TRYKK A"));
-}
-*/
-
-/*
-void mainFunc() {
-  float vehicleSpeed;
-  float maxVelocity;
-  float highSpeedTime;
-
-
-  // resetter variabler i starten av programmet
-  if (currentMillis < 100) {
-    maxVelocity = 50;
-    vehicleSpeed = 0;
-    highSpeedTime = 0;
+  if (currentMillis - prevMillis3 >= 1000){
+    int new_speed = vehicle_speed;
+    int samplingCount += 1;
+    int totSpeed += vehicle_speed;
+    if(samplingCount == 60){
+      snitt_fart = totSpeed / 60;
+      samplingCount = 0;
+    }
   }
-
-
-  if (currentMillis - prevMillis >= 1000) {
-    prevMillis = currentMillis;
-
-    // returnerer gjennomsnittshastighet (vehicleSpeed)
-    vehicleSpeed = gjennomsnittsHastighet();
-
-    motorPaadrag = random(300);
-
-  }
-
-  maxVelocity = maksHastighet(vehicleSpeed);
-
-
-  // Tar inn (momentanfarten til bilen, maksfarten som er målt under kjøring)
-  //highSpeedTime = sekunderOver70(vehicleSpeed, maxVelocity);
-  //Serial.println(highSpeedTime);
-
-
 }
+
 */

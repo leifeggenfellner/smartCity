@@ -1,10 +1,11 @@
 #include <Arduino.h>
 #include <Zumo32U4.h>
-//#include "Ladestasjon.h"
+#include "Ladestasjon.h"
 #include "SoftWareBatteri.h"
 #include "SpeedoMeter.h"
-#include "Movement.h"
+#include "PropulsionSystem.h"
 #include "Display.h"
+#include "GroundControl.h"
 
 #define STARTUP 0
 #define DRIVING 1

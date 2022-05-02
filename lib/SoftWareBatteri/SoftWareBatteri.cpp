@@ -1,5 +1,4 @@
-#include "SoftWareBatteri.h"
-#include <Zumo32U4.h>
+#include "SoftwareBatteri.h"
 
 // using namespace Batteriet;
 
@@ -24,29 +23,16 @@ float SoftwareBattery::batteryDrain(float vehicle_speed)
   return battery_level;
 }
 
-// Deklarerer variabler
-// float account_balance = 0;
-// float charging_cycles = 0;
-// float battery_health = 100;
-// float charging_cost = 10;
-// static float battery_level = 100;
-// float battery_capacity = 1200; // mAh
-// bool needs_charging = false;
-// bool battery_dead = false;
+float SoftwareBattery::reverseCharge()
+{
+  battery_level += 0.025;
+  battery_level = constrain(battery_level, 0, 100);
 
-// float batteryDrain(float vehicle_speed)
-// {
-//   float Kb = 0.15; // Batterikonstant for hvor mye batteriet skal tappes
+  return battery_level;
+}
 
-//   float battery_consumption = Kb * vehicle_speed; // mA
-//   battery_capacity -= battery_consumption;
-//   battery_capacity = constrain(battery_capacity, 0, 1200);
-//   battery_level = (battery_capacity / 1200) * 100; // Gitt i 100%
-
-//   return battery_level;
-// }
-
-/*
+int SoftwareBattery::checkBatteryState(int battery_level)
+{
   if (battery_level < 20)
   {
     needs_charging = true;
@@ -59,13 +45,50 @@ float SoftwareBattery::batteryDrain(float vehicle_speed)
   {
     needs_charging = false;
   }
-  */
-
-/*
-void loop(){
-  battery_life bl;
-  int vehiclespeed;
-  bl.batteryDrain(vehiclespeed);
-
+  return needs_charging;
 }
-*/
+
+int SoftwareBattery::batteryHealthCheck(int battery_level, float vehicle_speed, float maximum_speed)
+{
+
+  if (battery_health > 70)
+  {
+    battery_health_level = level_3;
+  }
+  else if (battery_health < 70 && battery_health >= 40)
+  {
+    battery_health_level = level_2;
+  }
+  else if (battery_health < 40 && battery_health >= 10)
+  {
+    battery_health_level = level_1;
+    // Batteriet må på service
+  }
+  else if (battery_health < 10)
+  {
+    battery_health_level = level_0;
+    // Batteriet må byttes
+  }
+
+  switch (battery_health_level)
+  {
+  case level_0:
+    // Batteriet må byttes
+    break;
+  case level_1:
+    /* code */
+    break;
+
+  case level_2:
+    /* code */
+    break;
+
+  case level_3:
+    /* code */
+    break;
+
+  default:
+    break;
+  }
+  return battery_health;
+}

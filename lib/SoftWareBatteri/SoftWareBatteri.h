@@ -3,7 +3,21 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <Zumo32U4.h>
+#include <stdint.h>
 //#include "Speedometer.h"
+
+class SoftwareBattery
+{
+private:
+    uint16_t battery_capacity;
+
+public:
+    uint8_t battery_health;
+    uint8_t battery_level;
+
+    SoftwareBattery();
+    float batteryDrain(float vehicleSpeed);
+};
 
 /*
 // Deklarerer variabler

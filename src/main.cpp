@@ -22,11 +22,13 @@ Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4LCD display;
+Movement myZumo(200, linesensor, motors, buzzer);
+Display myDisplay(200, 1, display);
 
 void setup()
 {
     Serial.begin(9600);
-    startCalibration();
+    myZumo.calibrateLightSensors();
 }
 
 void loop()
@@ -39,13 +41,13 @@ void loop()
     case STARTUP:
         maxSpeed = chooseSpeed(buttonB.getSingleDebouncedPress(), buttonC.getSingleDebouncedPress());
         car_state = updateCarState(buttonA.isPressed());
-        displayMaxSpeed(maxSpeed);
+        // displayMaxSpeed(maxSpeed);
         break;
 
     case DRIVING:
 
         distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
-        lineFollow();                                                                          // Motorreguleringen som kjører bilen
+        myZumo.followLine();                                                                   // Motorreguleringen som kjører bilen
         // chargingStation();        // Sjekker om bilen trenger lading
         // displayFunc();            // Viser informasjon på displayet
 

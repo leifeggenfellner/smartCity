@@ -5,17 +5,14 @@
 
 // static Zumo32U4Encoders encoders;
 
-// Deklarerer variabler
-float account_balance = 0;
-float charging_cycles = 0;
-float battery_health = 100;
-float charging_cost = 10;
-static float battery_level = 100;
-float battery_capacity = 1200; // mAh
-bool needs_charging = false;
-bool battery_dead = false;
+SoftwareBattery::SoftwareBattery()
+{
+  this->battery_health = 100;
+  this->battery_level = 100;
+  this->battery_capacity = 1200;
+}
 
-float batteryDrain(float vehicle_speed)
+float SoftwareBattery::batteryDrain(float vehicle_speed)
 {
   float Kb = 0.15; // Batterikonstant for hvor mye batteriet skal tappes
 
@@ -26,6 +23,28 @@ float batteryDrain(float vehicle_speed)
 
   return battery_level;
 }
+
+// Deklarerer variabler
+// float account_balance = 0;
+// float charging_cycles = 0;
+// float battery_health = 100;
+// float charging_cost = 10;
+// static float battery_level = 100;
+// float battery_capacity = 1200; // mAh
+// bool needs_charging = false;
+// bool battery_dead = false;
+
+// float batteryDrain(float vehicle_speed)
+// {
+//   float Kb = 0.15; // Batterikonstant for hvor mye batteriet skal tappes
+
+//   float battery_consumption = Kb * vehicle_speed; // mA
+//   battery_capacity -= battery_consumption;
+//   battery_capacity = constrain(battery_capacity, 0, 1200);
+//   battery_level = (battery_capacity / 1200) * 100; // Gitt i 100%
+
+//   return battery_level;
+// }
 
 /*
   if (battery_level < 20)

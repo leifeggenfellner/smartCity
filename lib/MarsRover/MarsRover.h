@@ -6,8 +6,11 @@
 #include "PropulsionSystem.h"
 #include "Display.h"
 
-#define STARTUP 0
-#define DRIVING 1
-#define CHARGING 2
+enum State
+{
+    STARTUP = 0,
+    DRIVING = 1,
+    CHARGING = 2
+}
 
 // Speedometeret::ZumoSpeedometer speedometer;

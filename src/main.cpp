@@ -65,8 +65,8 @@ void loop()
         recieveCommandsFromESP(ESPcommands);
         maxSpeed = chooseSpeed2(ESPcommands);
 
-        //displayTopScreen(vehicleSpeed);
-        //display.print(" cm/s");
+        // displayTopScreen(vehicleSpeed);
+        // display.print(" cm/s");
 
         if (currentMillis - prevMillis >= 1000)
         {
@@ -85,5 +85,4 @@ void loop()
     default:
         break;
     }
-
 }

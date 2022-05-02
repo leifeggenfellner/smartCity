@@ -15,7 +15,7 @@ Speedometer::Speedometer()
 // static unsigned long backingUpCounts;
 // long distanceBackedUp;
 
-float Speedometer::gjennomsnittsHastighet(uint32_t countsLeft, uint32_t countsRight)
+float Speedometer::currentSpeed(uint32_t countsLeft, uint32_t countsRight)
 {
   float meanRotation = (countsLeft + countsRight) / 2;
   float vehicleSpeed = (meanRotation * 100) / 5000;

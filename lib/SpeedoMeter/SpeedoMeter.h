@@ -17,7 +17,7 @@ private:
 
 public:
     Speedometer();
-    float gjennomsnittsHastighet(uint32_t countsLeft, uint32_t countsRight);
+    float currentSpeed(uint32_t countsLeft, uint32_t countsRight);
     float maksHastighet(float vehicle_speed);
     float highSpeedTime(float vehicle_speed);
     int chooseSpeed(bool button_B_pressed, bool button_C_pressed);

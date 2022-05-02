@@ -1,7 +1,7 @@
 #include <Arduino.h>
-#include "Movement.h"
+#include "PropulsionSystem.h"
 
-Movement::Movement(uint16_t maxSpeed, Zumo32U4LineSensors lineSensors, Zumo32U4Motors motors, Zumo32U4Buzzer buzzer)
+PropulsionSystem::PropulsionSystem(uint16_t maxSpeed, Zumo32U4LineSensors lineSensors, Zumo32U4Motors motors, Zumo32U4Buzzer buzzer)
 {
   this->maxSpeed = maxSpeed;
   this->lineSensors = lineSensors;
@@ -10,7 +10,7 @@ Movement::Movement(uint16_t maxSpeed, Zumo32U4LineSensors lineSensors, Zumo32U4M
   this->lastError = 0;
 }
 
-void Movement::calibrateLightSensors()
+void PropulsionSystem::calibrateLightSensors()
 {
   lineSensors.initThreeSensors();
   // buzzer.playFrequency(440, 200, 15);
@@ -38,7 +38,7 @@ void Movement::calibrateLightSensors()
   lineSensors.readCalibrated(lineSensorValues);
 }
 
-void Movement::followLine()
+void PropulsionSystem::followLine()
 {
   int16_t position = lineSensors.readLine(lineSensorValues);
   int16_t error = position - 2000;

@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-class Movement
+class PropulsionSystem
 {
 private:
     uint16_t maxSpeed;
@@ -16,7 +16,7 @@ private:
     Zumo32U4Buzzer buzzer;
 
 public:
-    Movement(uint16_t maxSpeed, Zumo32U4LineSensors lineSensors, Zumo32U4Motors motors, Zumo32U4Buzzer buzzer);
+    PropulsionSystem(uint16_t maxSpeed, Zumo32U4LineSensors lineSensors, Zumo32U4Motors motors, Zumo32U4Buzzer buzzer);
     void calibrateLightSensors();
     void followLine();
 };

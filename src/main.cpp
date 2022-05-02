@@ -1,4 +1,4 @@
-#include "MarsRover.h"
+#include "Marsrover.h"
 
 unsigned long currentMillis;
 unsigned long prevMillis = 0;
@@ -54,7 +54,7 @@ void loop()
 
     case DRIVING:
 
-        distance_driven = speedometer.distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
+        speedometer.distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
 
         ESPdriveCommands(ESPcommands);           // Tar imot kjørekommandoer fra ESP
         max_speed = chooseMaxSpeed(ESPcommands); // Velger makshastighet via ESP
@@ -64,7 +64,7 @@ void loop()
             prevMillis = currentMillis;
 
             vehicleSpeed = speedometer.currentSpeed(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
-            battery_level = batteryDrain(vehicleSpeed);                                                       // Tapper batteriet
+            battery_level = batteryDrain(vehicleSpeed);                                                                   // Tapper batteriet
         }
 
         break;

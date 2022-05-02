@@ -6,11 +6,11 @@ Speedometer::Speedometer()
 {
   this->maximum_velocity = 0;
   this->seconds_passed_in_high_speeds = 0;
-  static unsigned long currentMillis = millis();
-  static unsigned long prevMillis2 = 0;
-  uint32_t totalCounts;
-  uint16_t distance_driven = 0;
-  int maximum_speed = 400;
+  this->currentMillis = millis();
+  this->prevMillis2 = 0;
+  this->totalCounts;
+  this->currentMillis = currentMillisdistance_driven = 0;
+  this->maximum_speed = 400;
 }
 // static unsigned long backingUpCounts;
 // long distanceBackedUp;

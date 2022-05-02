@@ -5,6 +5,7 @@
 #include "SpeedoMeter.h"
 #include "PropulsionSystem.h"
 #include "Display.h"
+#include "GroundControl.h"
 
 enum State
 {

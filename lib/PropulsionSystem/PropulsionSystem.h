@@ -7,5 +7,3 @@
 void sensorsCalibrate();
 void lineFollow(uint16_t maximum_speed);
 void startCalibration();
-void recieveCommandsFromESP(char commands_from_ESP);
-float chooseSpeed2(char commands_from_ESP);

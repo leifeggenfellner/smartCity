@@ -5,12 +5,10 @@
 #include "SpeedoMeter.h"
 #include "PropulsionSystem.h"
 #include "Display.h"
+#include "GroundControl.h"
 
-enum State
-{
-    STARTUP = 0,
-    DRIVING = 1,
-    CHARGING = 2
-}
+#define STARTUP 0
+#define DRIVING 1
+#define CHARGING 2
 
 // Speedometeret::ZumoSpeedometer speedometer;

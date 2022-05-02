@@ -2,33 +2,26 @@
 #pragma once
 #include <Arduino.h>
 #include <Zumo32U4.h>
+#include <stdint.h>
 
-/*
-unsigned long currentMillis;
-unsigned long prevMillis = 0;
-unsigned long prevMillis2 = 0;
-*/
-/*
-namespace Speedometeret
-
+class Speedometer
 {
-    class ZumoSpeedometer
-    {
-    public:
-        int gjennomsnittsHastighet();
-        int maksHastighet(float vehicle_speed);
-        void sekunderOver70(float vehicle_speed, float maximum_velocity);
-    };
+private:
+    float maximum_velocity;
+    uint32_t seconds_passed_in_high_speeds;
+    uint32_t currentMillis;
+    uint32_t prevMillis2;
+    uint32_t totalCounts;
+    uint16_t distance_driven;
+    uint16_t maximum_speed;
 
-}
-*/
+public:
+    Speedometer();
+    float currentSpeed(uint32_t countsLeft, uint32_t countsRight);
+    float maksHastighet(float vehicle_speed);
+    float highSpeedTime(float vehicle_speed);
+    int chooseSpeed(bool button_B_pressed, bool button_C_pressed);
+    void distanceDriven(uint32_t countsLeft, uint32_t countsRight);
+};
 
-float gjennomsnittsHastighet(unsigned long countsLeft, unsigned long countsRight);
-float maksHastighet(float vehicle_speed);
-float highSpeedTime(float vehicle_speed, float maximum_velocity);
-int chooseSpeed(bool button_B_pressed, bool button_C_pressed);
-int distanceDriven(unsigned long countsLeft, unsigned long countsRight);
-int updateCarState(bool button_A_pressed);
-int updateCarState2(char commands_from_ESP);
-float chooseSpeed2(char commands_from_ESP);
-//void initialize();
+// void initialize();

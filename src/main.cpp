@@ -1,12 +1,10 @@
 #include "MarsRover.h"
 
-// Batteriet::ZumoSWBattery battery;
-
 unsigned long currentMillis;
 unsigned long prevMillis = 0;
 unsigned long prevMillis2 = 0;
 float vehicleSpeed;
-int maxSpeed = 400;
+int max_speed = 400;
 
 int distance_driven;
 float battery_level;
@@ -22,6 +20,7 @@ Zumo32U4ButtonA buttonA;
 Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4LCD display;
+Speedometer speedometer;
 
 void setup()
 {
@@ -33,47 +32,39 @@ void loop()
 {
 
     char ESPcommands = (char)Serial1.read();
-
+    String ESPstringCommands = (String)Serial1.read();
     currentMillis = millis();
 
     switch (car_state)
     {
     case STARTUP:
+        max_speed = chooseMaxSpeed(ESPcommands);
+        car_state = updateCarState(ESPcommands);
 
-        maxSpeed = chooseSpeed2(ESPcommands);
-        car_state = updateCarState2(ESPcommands);
-
+        /* //Dette er bare brukt for debugging
         Serial.print("Car state  ");
         Serial.print(car_state);
         Serial.print("     Recieved from ESP  ");
         Serial.print(ESPcommands);
         Serial.print("     Max speed  ");
-        Serial.println(maxSpeed);
+        Serial.println(max_speed);
+        */
 
-        // maxSpeed = chooseSpeed(buttonB.getSingleDebouncedPress(), buttonC.getSingleDebouncedPress());
-        // displayTopScreen(maxSpeed);
-        // car_state = updateCarState(buttonA.isPressed());
         break;
 
     case DRIVING:
 
-        distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
-                                                                                               // lineFollow(maxSpeed);                                                                          // Motorreguleringen som kjører bilen
-                                                                                               //  chargingStation();        // Sjekker om bilen trenger lading
-                                                                                               //  displayFunc();            // Viser informasjon på displayet
+        distance_driven = speedometer.distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
 
-        recieveCommandsFromESP(ESPcommands);
-        maxSpeed = chooseSpeed2(ESPcommands);
-
-        // displayTopScreen(vehicleSpeed);
-        // display.print(" cm/s");
+        ESPdriveCommands(ESPcommands);           // Tar imot kjørekommandoer fra ESP
+        max_speed = chooseMaxSpeed(ESPcommands); // Velger makshastighet via ESP
 
         if (currentMillis - prevMillis >= 1000)
         {
             prevMillis = currentMillis;
 
-            vehicleSpeed = gjennomsnittsHastighet(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
-            battery_level = batteryDrain(vehicleSpeed);                                                                 // Tapper batteriet
+            vehicleSpeed = speedometer.currentSpeed(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
+            battery_level = batteryDrain(vehicleSpeed);                                                       // Tapper batteriet
         }
 
         break;

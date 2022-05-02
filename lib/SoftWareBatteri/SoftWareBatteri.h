@@ -1,34 +1,24 @@
 #pragma once
 
 #include <Arduino.h>
-//#include "Speedometer.h"
+#include <Wire.h>
+#include <Zumo32U4.h>
+#include <stdint.h>
 
-
-
-/*
-// Deklarerer variabler
-int account_balance = 0;
-int charging_cycles = 0;
-int battery_health = 100;
-int charging_cost = 10;
-int battery_level = 3;
-bool needs_charging = false;
-bool battery_dead = false;
-
-
-namespace Batteriet
-
+class SoftwareBattery
 {
-    class ZumoSWBattery
-    {
-        public:
-            int batteryDrain(int vehicle_speed);
-    };
+private:
+    uint16_t battery_capacity;
 
-}
-*/
+public:
+    uint8_t battery_health;
+    uint8_t battery_level;
 
-float batteryDrain(float vehicle_speed); 
-float reverseCharge(); 
-int checkBatteryState(float battery_level); 
+    SoftwareBattery();
+    float batteryDrain(float vehicleSpeed);
+};
+
+float batteryDrain(float vehicle_speed);
+float reverseCharge();
+int checkBatteryState(float battery_level);
 int batteryHealthCheck(float battery_level, float vehicle_speed, float maximum_speed);

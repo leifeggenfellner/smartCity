@@ -1,6 +1,5 @@
 #include "MarsRover.h"
 
-
 unsigned long currentMillis;
 unsigned long prevMillis = 0;
 unsigned long prevMillis2 = 0;
@@ -22,14 +21,11 @@ Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4LCD display;
 
-
 void setup()
 {
     Serial.begin(9600);
-    Serial1.begin(9600);
+    myZumo.calibrateLightSensors();
 }
-
-
 
 void loop()
 {
@@ -59,16 +55,15 @@ void loop()
 
         distance_driven = distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
 
-        ESPdriveCommands(ESPcommands);    // Tar imot kjørekommandoer fra ESP
-        max_speed = chooseMaxSpeed(ESPcommands);   // Velger makshastighet via ESP
-       
+        ESPdriveCommands(ESPcommands);           // Tar imot kjørekommandoer fra ESP
+        max_speed = chooseMaxSpeed(ESPcommands); // Velger makshastighet via ESP
 
         if (currentMillis - prevMillis >= 1000)
         {
             prevMillis = currentMillis;
 
             vehicleSpeed = currentSpeed(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
-            battery_level = batteryDrain(vehicleSpeed);                                                                 // Tapper batteriet
+            battery_level = batteryDrain(vehicleSpeed);                                                       // Tapper batteriet
         }
 
         break;

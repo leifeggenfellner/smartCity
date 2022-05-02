@@ -1,28 +1,22 @@
 #pragma once
 
 #include <Arduino.h>
-//#include "Speedometer.h"
+#include <Wire.h>
+#include <Zumo32U4.h>
+#include <stdint.h>
 
-//namespace SoftWareBattery
-
-/*
+class SoftwareBattery
 {
-    class battery
-    {
-    public:
-        float batteryDrain(float vehicle_speed);
-        float reverseCharge();
-        int checkBatteryState(float battery_level);
-    };
+private:
+    uint16_t battery_capacity;
 
-    class batteryHealth
-    {
-    public:
-        int batteryHealthCheck(float battery_level, float vehicle_speed, float maximum_speed);
-    };
+public:
+    uint8_t battery_health;
+    uint8_t battery_level;
 
-}
-*/
+    SoftwareBattery();
+    float batteryDrain(float vehicleSpeed);
+};
 
 float batteryDrain(float vehicle_speed);
 float reverseCharge();

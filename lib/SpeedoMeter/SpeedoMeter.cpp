@@ -9,18 +9,20 @@ int teitVariabel = 0;
 float millis_passed_in_high_speeds = 0;
 */
 
-static float maximum_velocity;
-unsigned long seconds_passed_in_high_speeds = 1;
-static unsigned long currentMillis = millis();
-static unsigned long prevMillis2 = 0;
-unsigned long totalCounts;
-int _distance_driven;
-int _car_state;
-static int maximum_speed = 400;
+Speedometer::Speedometer()
+{
+  this->maximum_velocity = 0;
+  this->seconds_passed_in_high_speeds = 0;
+  static unsigned long currentMillis = millis();
+  static unsigned long prevMillis2 = 0;
+  uint32_t totalCounts;
+  uint16_t distance_driven = 0;
+  int maximum_speed = 400;
+}
 // static unsigned long backingUpCounts;
 // long distanceBackedUp;
 
-float gjennomsnittsHastighet(unsigned long countsLeft, unsigned long countsRight)
+float Speedometer::gjennomsnittsHastighet(uint32_t countsLeft, uint32_t countsRight)
 {
   float meanRotation = (countsLeft + countsRight) / 2;
   float vehicleSpeed = (meanRotation * 100) / 5000;
@@ -28,7 +30,7 @@ float gjennomsnittsHastighet(unsigned long countsLeft, unsigned long countsRight
   return vehicleSpeed;
 }
 
-float maksHastighet(float vehicle_speed)
+float Speedometer::maksHastighet(float vehicle_speed)
 {
   if (vehicle_speed >= maximum_velocity)
   {
@@ -37,7 +39,7 @@ float maksHastighet(float vehicle_speed)
   return maximum_velocity;
 }
 
-float highSpeedTime(float vehicle_speed, float maximum_velocity)
+float Speedometer::highSpeedTime(float vehicle_speed)
 {
   Serial.println(currentMillis);
 
@@ -59,7 +61,7 @@ float highSpeedTime(float vehicle_speed, float maximum_velocity)
   return seconds_passed_in_high_speeds;
 }
 
-int chooseSpeed(bool button_B_pressed, bool button_C_pressed)
+int Speedometer::chooseSpeed(bool button_B_pressed, bool button_C_pressed)
 {
   while (button_B_pressed)
   {
@@ -73,17 +75,7 @@ int chooseSpeed(bool button_B_pressed, bool button_C_pressed)
   return maximum_speed;
 }
 
-int updateCarState(bool button_A_pressed)
-{
-  if (button_A_pressed)
-  {
-    delay(1000);
-    _car_state = 1; // DRIVING
-  }
-  return _car_state;
-}
-
-int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
+void Speedometer::distanceDriven(uint32_t countsLeft, uint32_t countsRight)
 {
 
   long countsBoth = (countsLeft + countsRight) / 2;
@@ -91,7 +83,7 @@ int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
   if (countsBoth > 0)
   {
     totalCounts += countsBoth;
-    _distance_driven = totalCounts / 500000; // Gir distance i meter
+    distance_driven = totalCounts / 500000; // Gir distance i meter
   }
   /*
 
@@ -117,7 +109,6 @@ int distanceDriven(unsigned long countsLeft, unsigned long countsRight)
     display_mode = 0;
   }
 */
-  return _distance_driven;
 }
 
 /*

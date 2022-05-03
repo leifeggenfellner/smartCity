@@ -4,7 +4,6 @@
 #include "SoftwareBatteri/SoftWareBatteri.h"
 #include "Speedometer/Speedometer.h"
 #include "PropulsionSystem/PropulsionSystem.h"
-#include "GroundControl/GroundControl.h"
 
 #define STARTUP 0
 #define DRIVING 1

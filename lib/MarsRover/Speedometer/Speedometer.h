@@ -14,6 +14,7 @@ private:
     uint32_t totalCounts;
     uint16_t distance_driven;
     uint16_t maximum_speed;
+    uint32_t total_counts;
 
 public:
     Speedometer();

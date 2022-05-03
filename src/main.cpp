@@ -21,6 +21,8 @@ Zumo32U4ButtonB buttonB;
 Zumo32U4ButtonC buttonC;
 Zumo32U4LCD display;
 Speedometer speedometer;
+SoftwareBattery battery;
+PropulsionSystem driving(motors, max_speed, buzzer, linesensor);
 
 void setup()
 {
@@ -28,43 +30,44 @@ void setup()
     Serial1.begin(9600);
 }
 
+/* //Dette er bare brukt for debugging
+Serial.print("Car state  ");
+Serial.print(car_state);
+Serial.print("     Recieved from ESP  ");
+Serial.print(ESPcommands);
+Serial.print("     Max speed  ");
+Serial.println(max_speed);
+*/
+
 void loop()
 {
-
-    char ESPcommands = (char)Serial1.read();
-    String ESPstringCommands = (String)Serial1.read();
     currentMillis = millis();
+    // int sun_luminance = analogRead(14);
+    char ESPcommands = (char)Serial1.read();
+    // String ESPstringCommands = (String)Serial1.read();
 
     switch (car_state)
     {
     case STARTUP:
-        max_speed = chooseMaxSpeed(ESPcommands);
-        car_state = updateCarState(ESPcommands);
-
-        /* //Dette er bare brukt for debugging
-        Serial.print("Car state  ");
-        Serial.print(car_state);
-        Serial.print("     Recieved from ESP  ");
-        Serial.print(ESPcommands);
-        Serial.print("     Max speed  ");
-        Serial.println(max_speed);
-        */
+        max_speed = driving.chooseMaxSpeed(ESPcommands);
+        car_state = driving.updateCarState(ESPcommands);
 
         break;
 
     case DRIVING:
 
         speedometer.distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
-
-        ESPdriveCommands(ESPcommands);           // Tar imot kjørekommandoer fra ESP
-        max_speed = chooseMaxSpeed(ESPcommands); // Velger makshastighet via ESP
+        driving.ESPdriveCommands(ESPcommands);                                           // Tar imot kjørekommandoer fra ESP
+        max_speed = driving.chooseMaxSpeed(ESPcommands);                                 // Velger makshastighet via ESP
 
         if (currentMillis - prevMillis >= 1000)
         {
             prevMillis = currentMillis;
 
             vehicleSpeed = speedometer.currentSpeed(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
-            battery_level = batteryDrain(vehicleSpeed);                                                                   // Tapper batteriet
+            battery_level = battery.batteryDrain(vehicleSpeed);                                                           // Tapper batteriet
+            Serial1.print((String)battery_level);
+            Serial1.print(";");
         }
 
         break;

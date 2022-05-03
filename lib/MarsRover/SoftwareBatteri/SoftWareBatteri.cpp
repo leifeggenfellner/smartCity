@@ -8,6 +8,7 @@ SoftwareBattery::SoftwareBattery()
 {
   this->battery_health = 100;
   this->battery_level = 100;
+  this->battery_health_level = 3;
   this->battery_capacity = 1200;
 }
 
@@ -33,6 +34,7 @@ float SoftwareBattery::reverseCharge()
 
 int SoftwareBattery::checkBatteryState(int battery_level)
 {
+  /*
   if (battery_level < 20)
   {
     needs_charging = true;
@@ -46,6 +48,8 @@ int SoftwareBattery::checkBatteryState(int battery_level)
     needs_charging = false;
   }
   return needs_charging;
+  */
+ return 0;
 }
 
 int SoftwareBattery::batteryHealthCheck(int battery_level, float vehicle_speed, float maximum_speed)

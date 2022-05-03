@@ -8,8 +8,8 @@ Speedometer::Speedometer()
   this->seconds_passed_in_high_speeds = 0;
   this->currentMillis = millis();
   this->prevMillis2 = 0;
-  this->totalCounts;
-  this->currentMillis = currentMillisdistance_driven = 0;
+  this->total_counts = 0;
+  this->distance_driven = 0;
   this->maximum_speed = 400;
 }
 // static unsigned long backingUpCounts;
@@ -73,8 +73,8 @@ void Speedometer::distanceDriven(uint32_t countsLeft, uint32_t countsRight)
 
   if (countsBoth > 0)
   {
-    totalCounts += countsBoth;
-    distance_driven = totalCounts / 500000; // Gir distance i meter
+    total_counts += countsBoth;
+    distance_driven = total_counts / 500000; // Gir distance i meter
   }
   /*
 

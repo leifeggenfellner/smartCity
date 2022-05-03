@@ -1,13 +1,11 @@
 #include "Speedometer.h"
 
-// using namespace speedometer;
-
 Speedometer::Speedometer()
 {
   this->maximum_velocity = 0;
   this->seconds_passed_in_high_speeds = 0;
   this->currentMillis = millis();
-  this->prevMillis2 = 0;
+  this->prevMillis = 0;
   this->total_counts = 0;
   this->distance_driven = 0;
   this->maximum_speed = 400;
@@ -23,7 +21,7 @@ float Speedometer::currentSpeed(uint32_t countsLeft, uint32_t countsRight)
   return vehicleSpeed;
 }
 
-float Speedometer::maksHastighet(float vehicle_speed)
+float Speedometer::recordMaxVelocity(float vehicle_speed)
 {
   if (vehicle_speed >= maximum_velocity)
   {
@@ -34,6 +32,7 @@ float Speedometer::maksHastighet(float vehicle_speed)
 
 float Speedometer::highSpeedTime(float vehicle_speed)
 {
+  maximum_velocity = Speedometer::recordMaxVelocity(vehicle_speed);
 
   // static int millis_passed_in_high_speeds;
   // float seconds_passed_in_high_speeds = millis_passed_in_high_speeds / 100;
@@ -41,13 +40,12 @@ float Speedometer::highSpeedTime(float vehicle_speed)
   if (vehicle_speed >= maximum_velocity * 0.70)
   {
 
-    if (currentMillis - prevMillis2 >= 1000)
+    if (currentMillis - prevMillis >= 1000)
     {
-      prevMillis2 = currentMillis;
+      prevMillis = currentMillis;
       seconds_passed_in_high_speeds += 1;
     }
   }
-  Serial.println(seconds_passed_in_high_speeds);
 
   return seconds_passed_in_high_speeds;
 }

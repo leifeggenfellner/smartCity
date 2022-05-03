@@ -65,22 +65,23 @@ float PropulsionSystem::chooseMaxSpeed(char commands_from_ESP)
 {
   switch (commands_from_ESP)
   {
-  case 'c':
+  /*
+  case 'c':           // Kalibrerer linjesensorene
     calibrateLightSensors();
-    break;
-  case '+':
+    break;*/
+  case '+': // Øker makshastighet med 50
     maxSpeed += 50;
     commands_from_ESP = 3;
 
     break;
 
-  case '-':
+  case '-': // Senker makshastighet med 50
     maxSpeed -= 50;
     commands_from_ESP = 3;
 
     break;
 
-  case 3:
+  case 3: // Tom case som fungerer som deafult
 
     break;
   }
@@ -91,39 +92,39 @@ void PropulsionSystem::ESPdriveCommands(char commands_from_ESP)
 {
   switch (commands_from_ESP)
   {
-  case 'f':
+  case 'f': // Linjefølging
     followLine();
     break;
 
-  case 'w':
+  case 'w': // Kjører fremover
     for (int speed = 0; speed <= maxSpeed; speed++)
     {
       motors.setSpeeds(speed, speed);
     }
     break;
 
-  case 'a':
+  case 'a': // Kjører mot venstre
     for (int speed = 0; speed <= maxSpeed; speed++)
     {
       motors.setSpeeds(0, speed);
     }
     break;
 
-  case 's':
+  case 's': // Rygger
     for (int speed = 0; speed <= maxSpeed; speed++)
     {
       motors.setSpeeds(-speed, -speed);
     }
     break;
 
-  case 'd':
+  case 'd': // Kjører mot høyre
     for (int speed = 0; speed <= maxSpeed; speed++)
     {
       motors.setSpeeds(speed, 0);
     }
     break;
 
-  case 'x':
+  case 'x': // Bilen stopper
     motors.setSpeeds(0, 0);
     break;
   }

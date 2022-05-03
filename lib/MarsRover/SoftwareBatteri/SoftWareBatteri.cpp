@@ -1,15 +1,12 @@
 #include "SoftwareBatteri.h"
 
-// using namespace Batteriet;
-
-// static Zumo32U4Encoders encoders;
-
 SoftwareBattery::SoftwareBattery()
 {
   this->battery_health = 100;
   this->battery_level = 100;
   this->battery_health_level = 3;
   this->battery_capacity = 1200;
+  this->charging_cycles = 0;
 }
 
 float SoftwareBattery::batteryDrain(float vehicle_speed)
@@ -32,24 +29,9 @@ float SoftwareBattery::reverseCharge()
   return battery_level;
 }
 
-int SoftwareBattery::checkBatteryState(int battery_level)
+int SoftwareBattery::chargingCycles()
 {
-  /*
-  if (battery_level < 20)
-  {
-    needs_charging = true;
-  }
-  else if (battery_level == 0)
-  {
-    battery_dead = true;
-  }
-  else
-  {
-    needs_charging = false;
-  }
-  return needs_charging;
-  */
- return 0;
+  charging_cycles += 1;
 }
 
 int SoftwareBattery::batteryHealthCheck(int battery_level, float vehicle_speed, float maximum_speed)

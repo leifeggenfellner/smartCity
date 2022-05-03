@@ -15,14 +15,15 @@ class SoftwareBattery
 private:
     uint16_t battery_capacity;
     uint8_t battery_health_level;
+    uint8_t charging_cycles;
 
 public:
     uint8_t battery_health;
     uint8_t battery_level;
 
     SoftwareBattery();
+    int chargingCycles();
     float batteryDrain(float vehicle_speed);
     float reverseCharge();
-    int checkBatteryState(int battery_level);
     int batteryHealthCheck(int battery_level, float vehicle_speed, float maximum_speed);
 };

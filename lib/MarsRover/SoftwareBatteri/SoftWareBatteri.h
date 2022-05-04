@@ -19,11 +19,11 @@ private:
 
 public:
     uint8_t battery_health;
-    uint8_t battery_level;
+    int batteryLevel;
 
     SoftwareBattery();
     int chargingCycles();
-    float batteryDrain(float vehicle_speed);
-    float reverseCharge();
-    int batteryHealthCheck(int battery_level, float vehicle_speed, float maximum_speed);
+    int batteryDrain(int vehicle_speed);
+    int reverseCharge(int battery_level);
+    int degradeBattery(int battery_level, float vehicle_speed, float seconds_passed_in_high_speeds);
 };

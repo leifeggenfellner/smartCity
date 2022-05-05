@@ -1,28 +1,15 @@
-#include "Marsrover.h"
+#include "main.h"
 
-unsigned long currentMillis;
-unsigned long prevMillis = 0;
-unsigned long prevMillis2 = 0;
+uint32_t currentMillis;
+uint32_t prevMillis = 0;
+uint32_t prevMillis2 = 0;
 float vehicleSpeed;
-int max_speed = 400;
+uint16_t max_speed = 400;
 
-int distance_driven;
+uint16_t distance_driven;
 float battery_level;
 
-int car_state = 0;
-int display_mode = 0;
-
-Zumo32U4Encoders encoders;
-Zumo32U4Buzzer buzzer;
-Zumo32U4LineSensors linesensor;
-Zumo32U4Motors motors;
-Zumo32U4ButtonA buttonA;
-Zumo32U4ButtonB buttonB;
-Zumo32U4ButtonC buttonC;
-Zumo32U4LCD display;
-Speedometer speedometer;
-SoftwareBattery battery;
-PropulsionSystem driving(motors, max_speed, buzzer, linesensor);
+uint8_t car_state = 0;
 
 void setup()
 {

@@ -9,7 +9,6 @@ SoftwareBattery::SoftwareBattery()
   this->charging_cycles = 0;
 }
 
-
 int SoftwareBattery::batteryDrain(int vehicle_speed)
 {
   float Kb = 0.01; // Batterikonstant for hvor mye batteriet skal tappes
@@ -21,7 +20,6 @@ int SoftwareBattery::batteryDrain(int vehicle_speed)
 
   return batteryLevel;
 }
-
 
 int SoftwareBattery::reverseCharge(int battery_level)
 {
@@ -35,7 +33,6 @@ int SoftwareBattery::chargingCycles()
 {
   charging_cycles += 1;
 }
-
 
 int SoftwareBattery::degradeBattery(int battery_level, float vehicle_speed, float seconds_passed_in_high_speeds)
 {

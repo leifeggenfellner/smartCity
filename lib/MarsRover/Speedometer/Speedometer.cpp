@@ -10,7 +10,6 @@ Speedometer::Speedometer()
   this->distance_driven = 0;
   this->maximum_speed = 400;
   this->sampling_count = 0;
-  // this->speedValues = {0, 0, 0};
 }
 
 int Speedometer::currentSpeed(uint16_t countsLeft, uint16_t countsRight)
@@ -73,14 +72,6 @@ int Speedometer::averageSpeed(float vehicle_speed)
   return average_velocity;
 }
 
-/*
-void Speedometer::updateVariables(float vehicle_speed, uint32_t previous_millis)
-{
-  speedValues = {
-      Speedometer::averageSpeed(float vehicle_speed, uint32_t previous_millis),
-      Speedometer::highSpeedTime(float vehicle_speed),
-      Speedometer::recordMaxVelocity(float vehicle_speed)};
-}*/
 
 int Speedometer::chooseSpeed(bool button_B_pressed, bool button_C_pressed)
 {

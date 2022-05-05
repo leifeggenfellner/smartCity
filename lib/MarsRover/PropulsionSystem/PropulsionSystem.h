@@ -23,30 +23,6 @@ public:
     int updateCarState(char commands_from_ESP);
     float chooseMaxSpeed(char commands_from_ESP);
     void ESPdriveCommands(char commands_from_ESP);
-    //int PropulsionSystem::findChargingStation(int battery_level, int sun_luminance);
     int manuallyChangeCarState(bool button_A, bool button_B, bool button_C);
     int measureSunlight(String string_commands_from_ESP);
-    void Calibrate2();
 };
-
-/*
-class ESPcommands
-{
-private:
-
-protected:
-    int16_t maxSpeed;
-    Zumo32U4Motors motors;
-    Zumo32U4Buzzer buzzer;
-    Zumo32U4LineSensors lineSensors;
-    unsigned int lineSensorValues[5] = {0, 0, 0, 0, 0};
-
-public:
-    ESPcommands(Zumo32U4Motors motors, uint16_t maxSpeed, Zumo32U4Buzzer buzzer, Zumo32U4LineSensors lineSensors);
-    void calibrateLightSensors();
-    void followLine();
-    int updateCarState(char commands_from_ESP);
-    float chooseMaxSpeed(char commands_from_ESP);
-    void ESPdriveCommands(char commands_from_ESP);
-};
-*/

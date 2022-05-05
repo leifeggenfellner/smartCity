@@ -11,16 +11,6 @@ PropulsionSystem::PropulsionSystem(Zumo32U4Motors objMotors, uint16_t objMaxSpee
   this->maxSpeed = 400;
 };
 
-void PropulsionSystem::Calibrate2()
-{
-  lineSensors.initFiveSensors();
-  for (int i = 0; i < 65; i++)
-  {
-    lineSensors.calibrate();
-    motors.setSpeeds(200, -200);
-  }
-  motors.setSpeeds(0, 0);
-}
 
 void PropulsionSystem::calibrateLightSensors()
 {
@@ -86,25 +76,6 @@ void PropulsionSystem::followLine()
 
   leftSpeed = constrain((leftSpeed), 0, 400);
   rightSpeed = constrain((rightSpeed), 0, 400);
-  /*
-  Serial.print("Position: ");
-  Serial.print(position);
-  Serial.print("   ");
-  Serial.print("Error: ");
-  Serial.print(error);
-  Serial.print("   ");
-  Serial.print("speed difference: ");
-  Serial.print(speedDifference);
-  Serial.print("   ");
-  Serial.print("Last error: ");
-  Serial.print(lastError);
-  Serial.print("   ");
-  Serial.print("Left speed");
-  Serial.print(leftSpeed);
-  Serial.print("   ");
-  Serial.print("Right speed: ");
-  Serial.println(rightSpeed);
- */
   motors.setSpeeds(leftSpeed, rightSpeed);
 }
 
@@ -123,8 +94,7 @@ float PropulsionSystem::chooseMaxSpeed(char commands_from_ESP)
   {
 
   case 'c': // Kalibrerer linjesensorene
-    // calibrateLightSensors();
-    Calibrate2();
+    calibrateLightSensors();
     break;
   case '+': // Øker makshastighet med 50
     maxSpeed += 50;
@@ -150,16 +120,6 @@ void PropulsionSystem::ESPdriveCommands(char commands_from_ESP)
   float x = 0.025, y = 0.5;
   switch (commands_from_ESP)
   {
-    /*
-  case 'i':
-    sun_luminance = Serial1.readStringUntil(";");
-    Serial.println(sun_luminance);
-    break;*/
-    /*
-      case 'f': // Linjefølging
-        // followLine();
-        break;*/
-
   case 'w': // Kjører fremover
     for (float speed = 0; speed <= maxSpeed; speed = speed + x)
     {
@@ -209,13 +169,3 @@ int PropulsionSystem::measureSunlight(String string_commands_from_ESP)
   }
   return sun_luminance_int;
 }
-
-/*
-int PropulsionSystem::findChargingStation(int battery_level, int sun_luminance)
-{
-  if (battery_level < 50 && sun_luminance > 1800)
-  {
-    car_state = 2;
-  }
-  return car_state;
-}*/

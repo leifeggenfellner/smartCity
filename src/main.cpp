@@ -11,7 +11,6 @@ uint32_t distance_driven;
 int car_state = 0;
 bool needs_charging = false;
 
-
 Zumo32U4Encoders encoders;
 Zumo32U4Buzzer buzzer;
 Zumo32U4LineSensors linesensor;
@@ -23,7 +22,6 @@ Zumo32U4LCD display;
 Speedometer speedometer;
 SoftwareBattery battery;
 PropulsionSystem driving(motors, max_speed, buzzer, linesensor);
-// speedFunctions speedValues;
 
 void setup()
 {
@@ -32,7 +30,7 @@ void setup()
 }
 
 void loop()
-{   
+{
     char ESPcommands = (char)Serial1.read(); // Avleser kommandoer som kommer fra ESP32
     currentMillis = millis();
 
@@ -42,13 +40,15 @@ void loop()
     {
     case STARTUP:
         // Case hvor bilen er i oppstart.
+
         max_speed = driving.chooseMaxSpeed(ESPcommands); // Velger makshastighet via ESP32 og Node-RED
         car_state = driving.updateCarState(ESPcommands); // Venter på kommando fra Node-RED for å oppdatere status til kjøring
         break;
 
     case DRIVING:
         // Case hvor bilen er i kjøremodus
-        while (driving.follow_line)     // Når bilen skal være i linjefølgemodus
+
+        while (driving.follow_line) // Når bilen skal være i linjefølgemodus
         {
             driving.followLine();
         }
@@ -58,11 +58,11 @@ void loop()
         }
         else
         {
-            driving.ESPdriveCommands(ESPcommands);    // Tar imot kjørekommandoer fra ESP
+            driving.ESPdriveCommands(ESPcommands); // Tar imot kjørekommandoer fra ESP
         }
 
-        speedometer.distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt                             
-        max_speed = driving.chooseMaxSpeed(ESPcommands); // Velger makshastighet via ESP
+        speedometer.distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
+        max_speed = driving.chooseMaxSpeed(ESPcommands);                                 // Velger makshastighet via ESP
         int averageSpeed = speedometer.averageSpeed(vehicleSpeed);
         int highSpeedTime = speedometer.highSpeedTime(vehicleSpeed);
 
@@ -70,37 +70,30 @@ void loop()
         {
             prevMillis = currentMillis;
             vehicleSpeed = speedometer.currentSpeed(encoders.getCountsAndResetLeft(), encoders.getCountsAndResetRight()); // Sjekker hastigheten ved å telle antall rotasjoner på motoren
-            int battery_level = battery.batteryDrain(vehicleSpeed);    
-            Serial.println(battery_level);                                                       // Tapper batteriet
+            int battery_level = battery.batteryDrain(vehicleSpeed);
+            Serial.println(battery_level); // Tapper batteriet
             int battery_health = battery.degradeBattery(battery_level, vehicleSpeed, highSpeedTime);
             float maxVelocity = speedometer.recordMaxVelocity(vehicleSpeed);
-         
+
             Serial1.print("S");
             Serial1.print(vehicleSpeed);
             Serial1.print(";");
 
-            Serial1.print("L");                     // Sender først bokstaven 'L' til ESP, kodeord for batteri
-            Serial1.print(battery_level);           // Sender batterinivå til ESP
-            Serial1.print(";");                      // Avslutter strengen med semikolon
+            Serial1.print("L");           // Sender først bokstaven 'L' til ESP, kodeord for batteri
+            Serial1.print(battery_level); // Sender batterinivå til ESP
+            Serial1.print(";");           // Avslutter strengen med semikolon
 
             Serial1.print("H");
             Serial1.print(battery_health);
             Serial1.print(";");
-
-            //car_state = driving.findChargingStation(battery_level, sun_luminance);        // Sjekker om bilen må lade
-            //   //Serial1.print("i");                                                      // Sender først bokstaven 'i' til ESP, kodeord for lysforhold
-            //   //Serial1.print(String(sun_luminance));                                     // Sender lysforhold til ESP
-            //   //Serial1.print(";");                                                       // Avslutter strengen med semikolon
         }
-
-    
 
         break;
 
     case CHARGING:
         while (!needs_charging)
         {
-            while (Serial1.available()) 
+            while (Serial1.available())
             {
                 needs_charging = Serial1.readStringUntil(";");
             }

@@ -4,14 +4,6 @@
 #include <Zumo32U4.h>
 #include <stdint.h>
 
-/*
-struct speedFunctions
-{
-    int average_velocity;
-    int seconds_passed_in_high_speeds;
-    int maximum_velocity;
-};*/
-
 class Speedometer
 {
 private:
@@ -24,7 +16,6 @@ private:
     uint16_t maximum_speed;
     uint32_t total_counts;
     uint8_t sampling_count;
-    // struct speedStruct speedValues;
 
 public:
     Speedometer();
@@ -34,5 +25,4 @@ public:
     int chooseSpeed(bool button_B_pressed, bool button_C_pressed);
     uint16_t distanceDriven(uint32_t countsLeft, uint32_t countsRight);
     int averageSpeed(float vehicle_speed);
-    // void updateVariables(float vehicle_speed, uint32_t previous_millis);
 };

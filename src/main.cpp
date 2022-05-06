@@ -68,11 +68,11 @@ void loop()
             // Setter follow_line til sann og går dermed i linjefølgermodus
             driving.follow_line = true;
         }
-        /*else
+        else
         {
             // Dersom bilen ikke er satt til linjefølgermodus vil den ta i mot kjørekommandoer fra ESP32/Node-RED
             driving.ESPdriveCommands(ESPcommands); // Tar imot kjørekommandoer fra ESP
-        }*/
+        }
         speedometer.distanceDriven(encoders.getCountsLeft(), encoders.getCountsRight()); // Regner ut hvor langt bilen har kjørt
         max_speed = driving.chooseMaxSpeed(ESPcommands);                                 // Velger makshastighet via ESP
         int averageSpeed = speedometer.averageSpeed(vehicleSpeed);                       // Regner ut gjennomsnittshastigeten. Integrert i funksjonen å telle hvert 60'ende sekund
@@ -86,10 +86,11 @@ void loop()
             int battery_health = battery.degradeBattery(battery_level, vehicleSpeed, highSpeedTime);                        // Regner ut batterihelse basert på en rekke variabler
             float maxVelocity = speedometer.recordMaxVelocity(vehicleSpeed);                                                // Oppdaterer den maksimale hastigheten som er målt
 
+
             Serial1.print("S");              // Sender først bokstaven 'S' til ESP, kodeord for Speed
             Serial1.print(vehicleSpeed);     // Sender momentanfart til ESP
             Serial1.print(";");              // Avslutter strengen med semikolon
-
+            /*
             Serial1.print("L");              // Sender først bokstaven 'L' til ESP, kodeord for batteri
             Serial1.print(battery_level);    // Sender batterinivå til ESP
             Serial1.print(";");              // Avslutter strengen med semikolon
@@ -97,6 +98,7 @@ void loop()
             Serial1.print("H");              // Sender først bokstaven 'H' til ESP, kodeord for Health
             Serial1.print(battery_health);   // Sender helsenivå til ESP
             Serial1.print(";");              // Avslutter strengen med semikolon
+            */
         }
 
         break;

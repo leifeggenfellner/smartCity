@@ -39,15 +39,15 @@ void PropulsionSystem::followLine()
 {
   int16_t position = lineSensors.readLine(lineSensorValues);
   int16_t error = position - 2000;
-  int8_t speedDifference = error / 4 + 6 * (error - lastError);
+  int16_t speedDifference = (error * 2.53) + (6 * (error - lastError));
 
   lastError = error;
 
-  int8_t leftSpeed = (int8_t)maxSpeed + speedDifference;
-  int8_t rightSpeed = (int8_t)maxSpeed - speedDifference;
+  int16_t leftSpeed = maxSpeed + speedDifference;
+  int16_t rightSpeed = maxSpeed - speedDifference;
 
-  leftSpeed = constrain(leftSpeed, 0, (int8_t)maxSpeed);
-  rightSpeed = constrain(rightSpeed, 0, (int8_t)maxSpeed);
+  leftSpeed = constrain(leftSpeed, 0, maxSpeed);
+  rightSpeed = constrain(rightSpeed, 0, maxSpeed);
 
   motors.setSpeeds(leftSpeed, rightSpeed);
 }

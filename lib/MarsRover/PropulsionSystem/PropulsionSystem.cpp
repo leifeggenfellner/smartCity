@@ -39,7 +39,7 @@ void PropulsionSystem::followLine()
 {
   int16_t position = lineSensors.readLine(lineSensorValues);
   int16_t error = position - 2000;
-  int16_t speedDifference = (error * 2.53) + (6 * (error - lastError));
+  int16_t speedDifference = (error * 1.5) + (6 * (error - lastError));
 
   lastError = error;
 

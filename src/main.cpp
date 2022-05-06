@@ -90,7 +90,7 @@ void loop()
             Serial1.print("S");              // Sender først bokstaven 'S' til ESP, kodeord for Speed
             Serial1.print(vehicleSpeed);     // Sender momentanfart til ESP
             Serial1.print(";");              // Avslutter strengen med semikolon
-            /*
+            
             Serial1.print("L");              // Sender først bokstaven 'L' til ESP, kodeord for batteri
             Serial1.print(battery_level);    // Sender batterinivå til ESP
             Serial1.print(";");              // Avslutter strengen med semikolon
@@ -98,7 +98,7 @@ void loop()
             Serial1.print("H");              // Sender først bokstaven 'H' til ESP, kodeord for Health
             Serial1.print(battery_health);   // Sender helsenivå til ESP
             Serial1.print(";");              // Avslutter strengen med semikolon
-            */
+        
         }
 
         break;
